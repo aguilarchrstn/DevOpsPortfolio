@@ -1,0 +1,2650 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-cream">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#CC0000" />
+    <title>DevOps Chan Edition &mdash; Christian Sambere Aguilar</title>
+    <meta
+      name="description"
+      content="Interactive 8-bit start screen for Christian Sambere Aguilar, DevOps and Systems Administrator. Pick a journey: full experience, resume, a mini operating system, or the arcade."
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --cream: #f8f8d8;
+        --red: #cc0000;
+        --charcoal: #202020;
+        --panel: #ffffff;
+        --green: #50b848;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: var(--cream);
+        color: var(--charcoal);
+        font-family: "Press Start 2P", monospace;
+        font-size: 14px;
+        line-height: 1.6;
+        image-rendering: pixelated;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      p,
+      button,
+      label,
+      span,
+      div {
+        font-family: "Press Start 2P", monospace;
+      }
+
+      .screen {
+        min-height: 100vh;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 24px;
+        padding: 24px 16px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* ---------- Title screen scenery ---------- */
+      #title-screen {
+        background: linear-gradient(
+          180deg,
+          #3888d8 0%,
+          #8fc8f0 55%,
+          var(--cream) 55.1%,
+          var(--cream) 100%
+        );
+      }
+
+      .clouds {
+        position: absolute;
+        inset: 0 0 72% 0;
+        background-image: radial-gradient(
+            circle at 20% 60%,
+            #ffffff 0 18px,
+            transparent 19px
+          ),
+          radial-gradient(circle at 26% 62%, #ffffff 0 24px, transparent 25px),
+          radial-gradient(circle at 33% 60%, #ffffff 0 16px, transparent 17px),
+          radial-gradient(circle at 70% 30%, #ffffff 0 14px, transparent 15px),
+          radial-gradient(circle at 76% 32%, #ffffff 0 20px, transparent 21px);
+        background-repeat: repeat-x;
+        background-size: 800px 100%;
+        opacity: 0.85;
+        animation: drift 26s linear infinite;
+        pointer-events: none;
+      }
+
+      .grass {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 45%;
+        background: repeating-linear-gradient(
+            90deg,
+            #50b848 0 16px,
+            #48a840 16px 32px
+          ),
+          #50b848;
+        border-top: 4px solid var(--charcoal);
+        animation: scroll-ground 4s linear infinite;
+        pointer-events: none;
+      }
+
+      .grass::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: repeating-linear-gradient(
+          0deg,
+          rgba(32, 32, 32, 0.08) 0 2px,
+          transparent 2px 6px
+        );
+      }
+
+      @keyframes drift {
+        from {
+          background-position: 0 0;
+        }
+        to {
+          background-position: 800px 0;
+        }
+      }
+
+      @keyframes scroll-ground {
+        from {
+          background-position: 0 0;
+        }
+        to {
+          background-position: 32px 0;
+        }
+      }
+
+      .stage {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        max-width: 720px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+      }
+
+      /* ---------- Logo ---------- */
+      .logo {
+        margin: 0;
+        text-align: center;
+        text-transform: uppercase;
+        font-size: 24px;
+        line-height: 1.5;
+        color: #ffd800;
+        text-shadow: 3px 0 0 var(--charcoal), -3px 0 0 var(--charcoal),
+          0 3px 0 var(--charcoal), 0 -3px 0 var(--charcoal),
+          3px 3px 0 var(--charcoal), -3px -3px 0 var(--charcoal),
+          6px 6px 0 var(--red);
+      }
+
+      .logo small {
+        display: block;
+        margin-top: 12px;
+        font-size: 11px;
+        color: var(--panel);
+        text-shadow: 2px 2px 0 var(--charcoal), 0 0 0 var(--charcoal);
+      }
+
+      .press-start {
+        margin: 0;
+        font-size: 20px;
+        letter-spacing: 2px;
+        color: var(--red);
+        text-shadow: 2px 2px 0 var(--panel);
+        animation: blink 1s steps(1, end) infinite;
+      }
+
+      @keyframes blink {
+        0%,
+        49% {
+          opacity: 1;
+        }
+        50%,
+        100% {
+          opacity: 0;
+        }
+      }
+
+      /* ---------- Boxes ---------- */
+      .box {
+        background-color: var(--panel) !important;
+        color: var(--charcoal) !important;
+        border-image-repeat: stretch !important;
+        width: 100%;
+      }
+
+      .box::after {
+        content: "";
+        position: absolute;
+        inset: 6px;
+        border: 2px solid var(--charcoal);
+        pointer-events: none;
+      }
+
+      .box.no-inner::after {
+        display: none;
+      }
+
+      .box .title {
+        background-color: var(--panel) !important;
+        color: var(--red) !important;
+      }
+
+      /* ---------- Menu ---------- */
+      .menu {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .menu-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+        padding: 10px 8px;
+        background: none;
+        border: 0;
+        font-size: 13px;
+        text-align: left;
+        color: var(--charcoal);
+        cursor: pointer;
+      }
+
+      .menu-item:hover,
+      .menu-item:focus-visible,
+      .menu-item.is-active {
+        background-color: var(--cream);
+        outline: none;
+      }
+
+      .menu-item .arrow {
+        color: var(--green);
+        visibility: hidden;
+      }
+
+      .menu-item:hover .arrow,
+      .menu-item:focus-visible .arrow,
+      .menu-item.is-active .arrow {
+        visibility: visible;
+        animation: nudge 0.6s steps(2, end) infinite alternate;
+      }
+
+      @keyframes nudge {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(4px);
+        }
+      }
+
+      .menu-item .hint {
+        margin-left: auto;
+        font-size: 8px;
+        color: #707070;
+      }
+
+      /* ---------- Decorative pixel icons ---------- */
+      .decor {
+        position: absolute;
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      .decor.ball {
+        left: 6%;
+        bottom: 8%;
+        animation: bob 2.4s ease-in-out infinite;
+      }
+
+      .decor.decor-rack {
+        right: 6%;
+        bottom: 12%;
+      }
+
+      .decor.pika {
+        right: 10%;
+        top: 8%;
+        animation: bob 1.8s ease-in-out infinite;
+      }
+
+      @keyframes bob {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-8px);
+        }
+      }
+
+      .footnote {
+        position: relative;
+        z-index: 2;
+        margin: 0;
+        font-size: 8px;
+        color: var(--charcoal);
+        text-align: center;
+      }
+
+      /* ---------- Arcade ---------- */
+      #arcade {
+        display: none;
+        min-height: 100vh;
+        padding: 24px 16px 48px;
+        background-color: var(--cream);
+        background-image: repeating-linear-gradient(
+          0deg,
+          rgba(32, 32, 32, 0.05) 0 2px,
+          transparent 2px 4px
+        );
+      }
+
+      .wrap {
+        width: 100%;
+        max-width: 880px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      .topbar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .topbar h2 {
+        margin: 0;
+        font-size: 14px;
+        color: var(--red);
+      }
+
+      .stat-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 16px;
+        font-size: 10px;
+      }
+
+      .btn {
+        background-color: var(--red) !important;
+        color: var(--panel) !important;
+        font-size: 10px;
+      }
+
+      .btn.is-secondary {
+        background-color: var(--charcoal) !important;
+        color: var(--panel) !important;
+      }
+
+      .btn.is-go {
+        background-color: var(--green) !important;
+        color: var(--charcoal) !important;
+      }
+
+      /* Game 1 grid */
+      .rack-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        width: 100%;
+        max-width: 380px;
+      }
+
+      .rack svg {
+        width: 60%;
+        height: auto;
+      }
+
+      .rack {
+        position: relative;
+        aspect-ratio: 1 / 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        background-color: #d8d8c0;
+        border: 4px solid var(--charcoal);
+        box-shadow: inset -4px -4px 0 rgba(32, 32, 32, 0.25);
+        cursor: pointer;
+      }
+
+      .rack .bug {
+        display: none;
+        width: 46%;
+      }
+
+      .rack.has-bug .bug {
+        display: block;
+        animation: pop 0.18s steps(2, end);
+      }
+
+      .rack.patched {
+        background-color: var(--green);
+      }
+
+      @keyframes pop {
+        from {
+          transform: scale(0.4);
+        }
+        to {
+          transform: scale(1);
+        }
+      }
+
+      /* Game 2 */
+      #catcher-canvas {
+        display: block;
+        width: 100%;
+        height: auto;
+        background-color: #101820;
+        border: 4px solid var(--charcoal);
+        touch-action: none;
+        cursor: none;
+      }
+
+      .hp-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 10px;
+      }
+
+      .hp-row .nes-progress {
+        flex: 1;
+        min-width: 120px;
+      }
+
+      /* Game 3 */
+      .gate-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .gate {
+        flex: 1 1 140px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        padding: 12px;
+        background-color: var(--panel);
+        border: 4px solid var(--charcoal);
+        cursor: pointer;
+      }
+
+      .gate .light {
+        width: 28px;
+        height: 28px;
+        border: 3px solid var(--charcoal);
+        border-radius: 50%;
+        background-color: #a0a0a0;
+      }
+
+      .gate[data-on="true"] .light {
+        background-color: var(--green);
+      }
+
+      .gate[data-on="false"] .light {
+        background-color: var(--red);
+      }
+
+      .gate .label {
+        font-size: 10px;
+      }
+
+      .gate .state {
+        font-size: 8px;
+        color: #707070;
+      }
+
+      .gate.is-locked {
+        cursor: default;
+        opacity: 0.75;
+      }
+
+      .verdict {
+        margin: 0;
+        font-size: 10px;
+        min-height: 1.6em;
+      }
+
+      .verdict.ok {
+        color: var(--green);
+      }
+
+      .verdict.bad {
+        color: var(--red);
+      }
+
+      /* Confetti */
+      .confetti {
+        position: fixed;
+        inset: 0;
+        z-index: 50;
+        pointer-events: none;
+        overflow: hidden;
+      }
+
+      .confetti i {
+        position: absolute;
+        top: -16px;
+        width: 10px;
+        height: 10px;
+        animation: fall linear forwards;
+      }
+
+      @keyframes fall {
+        to {
+          transform: translateY(110vh) rotate(220deg);
+        }
+      }
+
+      /* Quit overlay */
+      #quit-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 60;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        background-color: rgba(32, 32, 32, 0.85);
+      }
+
+      #quit-overlay .box {
+        max-width: 420px;
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      @media (max-width: 640px) {
+        .logo {
+          font-size: 15px;
+        }
+        .press-start {
+          font-size: 14px;
+        }
+        .decor {
+          display: none;
+        }
+        body {
+          font-size: 12px;
+        }
+      }
+
+      /* ================= JOURNEY SELECT ================= */
+      #journey {
+        display: none;
+        min-height: 100vh;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 32px;
+        padding: 32px 16px;
+        background-color: #1a1226;
+        background-image: repeating-linear-gradient(
+          0deg,
+          rgba(255, 255, 255, 0.04) 0 2px,
+          transparent 2px 4px
+        );
+        color: var(--panel);
+      }
+
+      #journey h2 {
+        margin: 0;
+        font-size: 18px;
+        text-align: center;
+        color: var(--panel);
+        text-shadow: 3px 3px 0 #000000;
+      }
+
+      #journey .sub {
+        margin: -18px 0 0;
+        font-size: 9px;
+        text-align: center;
+        color: #b9a8d8;
+      }
+
+      .journey-grid {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        max-width: 900px;
+      }
+
+      .journey-card {
+        flex: 1 1 170px;
+        max-width: 210px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+        padding: 18px 10px;
+        background: none;
+        border: 4px solid transparent;
+        color: var(--panel);
+        font-size: 11px;
+        text-align: center;
+        cursor: pointer;
+      }
+
+      .journey-card svg {
+        width: 84px;
+        height: 84px;
+      }
+
+      .journey-card .cap {
+        line-height: 1.5;
+      }
+
+      .journey-card .note {
+        font-size: 8px;
+        color: #b9a8d8;
+      }
+
+      .journey-card:hover,
+      .journey-card:focus-visible,
+      .journey-card.is-active {
+        outline: none;
+        border-color: #8f7fd8;
+        background-color: rgba(143, 127, 216, 0.14);
+      }
+
+      .journey-card:hover svg,
+      .journey-card:focus-visible svg,
+      .journey-card.is-active svg {
+        animation: bob 1.4s ease-in-out infinite;
+      }
+
+      .journey-foot {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: center;
+        font-size: 8px;
+        color: #b9a8d8;
+      }
+
+      /* ================= RESUME WINDOW ================= */
+      #resume-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 70;
+        align-items: center;
+        justify-content: center;
+        padding: 20px 12px;
+        background-color: rgba(12, 8, 20, 0.9);
+      }
+
+      .paper {
+        position: relative;
+        width: 100%;
+        max-width: 560px;
+        max-height: 86vh;
+        display: flex;
+        flex-direction: column;
+        background-color: #f4f4e4;
+        border: 4px solid var(--charcoal);
+        box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.5);
+      }
+
+      .paper-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 10px 12px;
+        background-color: #3060a8;
+        color: var(--panel);
+        border-bottom: 4px solid var(--charcoal);
+        font-size: 10px;
+      }
+
+      .paper-body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px 22px 24px 44px;
+        background-image: linear-gradient(
+            90deg,
+            transparent 0 30px,
+            #d86868 30px 34px,
+            transparent 34px
+          ),
+          repeating-linear-gradient(
+            0deg,
+            transparent 0 27px,
+            #c8d8e8 27px 28px
+          );
+      }
+
+      .paper-body h3 {
+        margin: 0 0 4px;
+        font-size: 14px;
+        color: #202020;
+      }
+
+      .paper-body h4 {
+        margin: 24px 0 8px;
+        padding-bottom: 6px;
+        font-size: 10px;
+        color: #3060a8;
+        border-bottom: 3px solid var(--charcoal);
+      }
+
+      .paper-body p,
+      .paper-body li {
+        font-size: 9px;
+        line-height: 1.9;
+      }
+
+      .paper-body .role {
+        margin: 14px 0 2px;
+        font-size: 10px;
+        color: #202020;
+      }
+
+      .paper-body .meta {
+        margin: 0;
+        font-size: 8px;
+        color: #606060;
+      }
+
+      .paper-body ul {
+        margin: 6px 0 0;
+        padding-left: 16px;
+      }
+
+      /* ================= MINI OS ================= */
+      #os {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 65;
+        background-color: #0d0a14;
+        color: #d8e0f0;
+        overflow: hidden;
+      }
+
+      #os-boot {
+        height: 100%;
+        padding: 18px;
+        overflow: hidden;
+        font-size: 11px;
+        line-height: 2;
+        color: #c8d8f0;
+        cursor: pointer;
+      }
+
+      #os-boot .c {
+        color: #7fd8c0;
+      }
+
+      #os-boot .k {
+        color: #f0d060;
+      }
+
+      #os-boot .cur {
+        animation: blink 1s steps(1, end) infinite;
+      }
+
+      /* Login */
+      #os-login {
+        display: none;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+        background-color: #5a6a9c;
+        background-image: repeating-linear-gradient(
+          0deg,
+          rgba(0, 0, 0, 0.06) 0 2px,
+          transparent 2px 4px
+        );
+      }
+
+      .win {
+        width: 100%;
+        max-width: 500px;
+        background-color: #c0c8c8;
+        border: 3px solid #202020;
+        box-shadow: inset -3px -3px 0 #808888, inset 3px 3px 0 #f0f8f8,
+          6px 6px 0 rgba(0, 0, 0, 0.45);
+      }
+
+      .win-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 6px 8px;
+        background-color: #3060a8;
+        color: var(--panel);
+        font-size: 10px;
+        cursor: grab;
+        user-select: none;
+      }
+
+      .win-bar .btns {
+        display: flex;
+        gap: 4px;
+      }
+
+      .win-btn {
+        width: 20px;
+        height: 18px;
+        padding: 0;
+        font-size: 8px;
+        line-height: 1;
+        background-color: #c0c8c8;
+        color: #202020;
+        border: 2px solid #202020;
+        box-shadow: inset -2px -2px 0 #808888, inset 2px 2px 0 #f0f8f8;
+        cursor: pointer;
+      }
+
+      .win-body {
+        padding: 16px;
+        font-size: 10px;
+        color: #202020;
+      }
+
+      .login-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 10px;
+        font-size: 10px;
+      }
+
+      .login-row label {
+        width: 92px;
+      }
+
+      .login-row input {
+        flex: 1;
+        min-width: 0;
+        padding: 6px;
+        font-family: "Press Start 2P", monospace;
+        font-size: 10px;
+        background-color: #e0e8e8;
+        border: 2px solid #202020;
+        box-shadow: inset 2px 2px 0 #808888;
+      }
+
+      .win-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+        margin-top: 20px;
+      }
+
+      .os-btn {
+        padding: 8px 14px;
+        font-family: "Press Start 2P", monospace;
+        font-size: 10px;
+        background-color: #c0c8c8;
+        color: #202020;
+        border: 2px solid #202020;
+        box-shadow: inset -3px -3px 0 #808888, inset 3px 3px 0 #f0f8f8;
+        cursor: pointer;
+      }
+
+      .os-btn:active {
+        box-shadow: inset 3px 3px 0 #808888;
+      }
+
+      /* Desktop */
+      #os-desktop {
+        display: none;
+        position: absolute;
+        inset: 0;
+        flex-direction: column;
+        background-color: #5a6a9c;
+        background-image: repeating-linear-gradient(
+          0deg,
+          rgba(0, 0, 0, 0.06) 0 2px,
+          transparent 2px 4px
+        );
+      }
+
+      .desk {
+        position: relative;
+        flex: 1;
+        overflow: hidden;
+      }
+
+      .icon-col {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        width: 96px;
+      }
+
+      .desk-icon {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 4px;
+        background: none;
+        border: 2px dotted transparent;
+        color: var(--panel);
+        font-size: 8px;
+        line-height: 1.5;
+        text-align: center;
+        text-shadow: 1px 1px 0 #202020;
+        cursor: pointer;
+      }
+
+      .desk-icon svg {
+        width: 36px;
+        height: 36px;
+      }
+
+      .desk-icon:hover,
+      .desk-icon:focus-visible {
+        outline: none;
+        border-color: var(--panel);
+        background-color: rgba(48, 96, 168, 0.5);
+      }
+
+      .os-window {
+        position: absolute;
+        width: min(460px, calc(100vw - 40px));
+        max-height: calc(100vh - 140px);
+        display: flex;
+        flex-direction: column;
+        background-color: #c0c8c8;
+        border: 3px solid #202020;
+        box-shadow: inset -3px -3px 0 #808888, inset 3px 3px 0 #f0f8f8,
+          6px 6px 0 rgba(0, 0, 0, 0.45);
+      }
+
+      .os-window .win-body {
+        overflow-y: auto;
+        color: #202020;
+        line-height: 1.9;
+      }
+
+      .os-window h5 {
+        margin: 0 0 10px;
+        font-size: 11px;
+        color: #3060a8;
+      }
+
+      .os-window ul {
+        margin: 0;
+        padding-left: 16px;
+      }
+
+      .term {
+        height: 260px;
+        padding: 12px;
+        overflow-y: auto;
+        background-color: #0d0a14;
+        color: #7fd8c0;
+        font-size: 10px;
+        line-height: 1.9;
+      }
+
+      .term .out {
+        color: #d8e0f0;
+      }
+
+      .term .err {
+        color: #ff8080;
+      }
+
+      .term-form {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 12px;
+        background-color: #0d0a14;
+        border-top: 2px solid #303048;
+      }
+
+      .term-form span {
+        color: #f0d060;
+        font-size: 10px;
+      }
+
+      .term-form input {
+        flex: 1;
+        min-width: 0;
+        padding: 4px;
+        font-family: "Press Start 2P", monospace;
+        font-size: 10px;
+        color: #7fd8c0;
+        background: none;
+        border: 0;
+        outline: none;
+      }
+
+      .taskbar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 8px;
+        background-color: #c0c8c8;
+        border-top: 3px solid #f0f8f8;
+      }
+
+      .start-btn {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 12px;
+        font-family: "Press Start 2P", monospace;
+        font-size: 10px;
+        background-color: #c0c8c8;
+        color: #202020;
+        border: 2px solid #202020;
+        box-shadow: inset -3px -3px 0 #808888, inset 3px 3px 0 #f0f8f8;
+        cursor: pointer;
+      }
+
+      .task-list {
+        display: flex;
+        flex: 1;
+        gap: 6px;
+        min-width: 0;
+        overflow: hidden;
+      }
+
+      .task-btn {
+        max-width: 150px;
+        padding: 6px 10px;
+        overflow: hidden;
+        font-family: "Press Start 2P", monospace;
+        font-size: 8px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        background-color: #c0c8c8;
+        color: #202020;
+        border: 2px solid #202020;
+        box-shadow: inset -2px -2px 0 #808888, inset 2px 2px 0 #f0f8f8;
+        cursor: pointer;
+      }
+
+      .tray {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 10px;
+        font-size: 9px;
+        color: #202020;
+        border: 2px solid #808888;
+        box-shadow: inset 2px 2px 0 #808888;
+      }
+
+      #start-menu {
+        display: none;
+        position: absolute;
+        left: 8px;
+        bottom: 8px;
+        z-index: 40;
+        width: 220px;
+        background-color: #c0c8c8;
+        border: 3px solid #202020;
+        box-shadow: inset -3px -3px 0 #808888, inset 3px 3px 0 #f0f8f8,
+          6px 6px 0 rgba(0, 0, 0, 0.45);
+      }
+
+      #start-menu ul {
+        list-style: none;
+        margin: 0;
+        padding: 6px;
+      }
+
+      #start-menu button {
+        display: block;
+        width: 100%;
+        padding: 9px 8px;
+        font-family: "Press Start 2P", monospace;
+        font-size: 9px;
+        text-align: left;
+        color: #202020;
+        background: none;
+        border: 0;
+        cursor: pointer;
+      }
+
+      #start-menu button:hover,
+      #start-menu button:focus-visible {
+        outline: none;
+        background-color: #3060a8;
+        color: var(--panel);
+      }
+
+      @media (max-width: 640px) {
+        #journey h2 {
+          font-size: 13px;
+        }
+        .journey-card {
+          flex: 1 1 130px;
+          font-size: 9px;
+        }
+        .journey-card svg {
+          width: 60px;
+          height: 60px;
+        }
+        .icon-col {
+          width: 78px;
+        }
+        .term {
+          height: 200px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .clouds,
+        .grass,
+        .press-start,
+        .decor,
+        .menu-item .arrow {
+          animation: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ================= TITLE SCREEN ================= -->
+    <main id="title-screen" class="screen" aria-label="Start screen">
+      <div class="clouds" aria-hidden="true"></div>
+      <div class="grass" aria-hidden="true"></div>
+
+      <!-- Pokeball -->
+      <svg
+        class="decor ball"
+        width="64"
+        height="64"
+        viewBox="0 0 16 16"
+        aria-hidden="true"
+        shape-rendering="crispEdges"
+      >
+        <rect x="3" y="1" width="10" height="6" fill="#CC0000" />
+        <rect x="3" y="8" width="10" height="6" fill="#FFFFFF" />
+        <rect x="2" y="3" width="1" height="9" fill="#202020" />
+        <rect x="13" y="3" width="1" height="9" fill="#202020" />
+        <rect x="3" y="1" width="10" height="1" fill="#202020" />
+        <rect x="3" y="13" width="10" height="1" fill="#202020" />
+        <rect x="2" y="7" width="12" height="2" fill="#202020" />
+        <rect x="6" y="6" width="4" height="4" fill="#FFFFFF" />
+        <rect x="7" y="7" width="2" height="2" fill="#202020" />
+      </svg>
+
+      <!-- Server rack -->
+      <svg
+        class="decor decor-rack"
+        width="60"
+        height="76"
+        viewBox="0 0 12 16"
+        aria-hidden="true"
+        shape-rendering="crispEdges"
+      >
+        <rect x="1" y="1" width="10" height="14" fill="#404058" />
+        <rect x="1" y="1" width="10" height="1" fill="#202020" />
+        <rect x="1" y="14" width="10" height="1" fill="#202020" />
+        <rect x="1" y="1" width="1" height="14" fill="#202020" />
+        <rect x="10" y="1" width="1" height="14" fill="#202020" />
+        <rect x="3" y="3" width="6" height="2" fill="#C0C0C0" />
+        <rect x="3" y="6" width="6" height="2" fill="#C0C0C0" />
+        <rect x="3" y="9" width="6" height="2" fill="#C0C0C0" />
+        <rect x="8" y="3" width="1" height="1" fill="#50B848" />
+        <rect x="8" y="6" width="1" height="1" fill="#50B848" />
+        <rect x="8" y="9" width="1" height="1" fill="#CC0000" />
+      </svg>
+
+      <!-- Pikachu-style icon -->
+      <svg
+        class="decor pika"
+        width="64"
+        height="64"
+        viewBox="0 0 16 16"
+        aria-hidden="true"
+        shape-rendering="crispEdges"
+      >
+        <rect x="3" y="1" width="2" height="3" fill="#202020" />
+        <rect x="11" y="1" width="2" height="3" fill="#202020" />
+        <rect x="4" y="3" width="8" height="9" fill="#FFD800" />
+        <rect x="3" y="5" width="1" height="6" fill="#202020" />
+        <rect x="12" y="5" width="1" height="6" fill="#202020" />
+        <rect x="4" y="2" width="1" height="2" fill="#FFD800" />
+        <rect x="11" y="2" width="1" height="2" fill="#FFD800" />
+        <rect x="4" y="12" width="8" height="1" fill="#202020" />
+        <rect x="6" y="6" width="1" height="2" fill="#202020" />
+        <rect x="9" y="6" width="1" height="2" fill="#202020" />
+        <rect x="7" y="9" width="2" height="1" fill="#202020" />
+        <rect x="4" y="8" width="2" height="2" fill="#CC0000" />
+        <rect x="10" y="8" width="2" height="2" fill="#CC0000" />
+      </svg>
+
+      <div class="stage">
+        <h1 class="logo">
+          DevOps Chan<br />Edition
+          <small>Christian Sambere Aguilar &mdash; Version 1.0</small>
+        </h1>
+
+        <p class="press-start">&#9654; PRESS START</p>
+
+        <div class="nes-container is-rounded box no-inner">
+          <p style="margin: 0 0 4px; font-size: 10px; color: #cc0000">
+            CHRISTIAN SAMBERE AGUILAR
+          </p>
+          <p style="margin: 0; font-size: 9px">
+            DevOps &amp; Systems Administrator. Choose a command to begin.
+          </p>
+        </div>
+
+        <nav class="nes-container is-rounded box" aria-label="Main menu">
+          <ul class="menu" id="menu">
+            <li>
+              <button class="menu-item is-active" type="button" data-action="new">
+                <span class="arrow" aria-hidden="true">&#9654;</span>
+                <span>START NEW GAME</span>
+                <span class="hint">SELECT JOURNEY</span>
+              </button>
+            </li>
+            <li>
+              <button class="menu-item" type="button" data-action="continue">
+                <span class="arrow" aria-hidden="true">&#9654;</span>
+                <span>CONTINUE</span>
+                <span class="hint">PORTFOLIO</span>
+              </button>
+            </li>
+            <li>
+              <button class="menu-item" type="button" data-action="quit">
+                <span class="arrow" aria-hidden="true">&#9654;</span>
+                <span>QUIT</span>
+                <span class="hint">SAVE &amp; EXIT</span>
+              </button>
+            </li>
+          </ul>
+        </nav>
+
+        <p class="footnote">
+          &copy;2026 CHRISTIAN SAMBERE AGUILAR. USE ARROW KEYS + ENTER.
+        </p>
+      </div>
+    </main>
+
+    <!-- ================= JOURNEY SELECT ================= -->
+    <section id="journey" class="screen" aria-label="Select your journey">
+      <h2>Select your Journey</h2>
+      <p class="sub">
+        CHRISTIAN SAMBERE AGUILAR &mdash; DEVOPS &amp; SYSTEMS ADMINISTRATOR
+      </p>
+
+      <div class="journey-grid" id="journey-grid">
+        <!-- FULL EXPERIENCE -->
+        <button class="journey-card is-active" type="button" data-journey="full">
+          <svg viewBox="0 0 16 16" aria-hidden="true" shape-rendering="crispEdges">
+            <rect x="2" y="2" width="12" height="9" fill="#3c2f52" />
+            <rect x="3" y="3" width="10" height="7" fill="#6c5b9c" />
+            <rect x="4" y="4" width="8" height="5" fill="#8fd8f0" />
+            <rect x="5" y="5" width="3" height="1" fill="#3c2f52" />
+            <rect x="5" y="7" width="5" height="1" fill="#3c2f52" />
+            <rect x="6" y="11" width="4" height="1" fill="#3c2f52" />
+            <rect x="4" y="12" width="8" height="1" fill="#c0c8d8" />
+            <rect x="6" y="13" width="2" height="2" fill="#f0c8a0" />
+            <rect x="5" y="12" width="1" height="1" fill="#f0c8a0" />
+            <rect x="9" y="12" width="1" height="1" fill="#f0c8a0" />
+            <rect x="6" y="13" width="1" height="1" fill="#202020" />
+            <rect x="1" y="15" width="14" height="1" fill="#3c2f52" />
+          </svg>
+          <span class="cap">Full Experience<br /><span class="note">8-BIT PORTFOLIO</span></span>
+        </button>
+
+        <!-- RESUME -->
+        <button class="journey-card" type="button" data-journey="resume">
+          <svg viewBox="0 0 16 16" aria-hidden="true" shape-rendering="crispEdges">
+            <rect x="3" y="1" width="10" height="14" fill="#202020" />
+            <rect x="4" y="2" width="8" height="12" fill="#f4f4e4" />
+            <rect x="4" y="2" width="1" height="12" fill="#d86868" />
+            <rect x="6" y="4" width="5" height="1" fill="#3060a8" />
+            <rect x="6" y="6" width="5" height="1" fill="#a0b0c0" />
+            <rect x="6" y="8" width="5" height="1" fill="#a0b0c0" />
+            <rect x="6" y="10" width="3" height="1" fill="#a0b0c0" />
+            <rect x="10" y="10" width="2" height="2" fill="#f0c860" />
+            <rect x="11" y="12" width="1" height="1" fill="#d86868" />
+            <rect x="5" y="1" width="1" height="1" fill="#808890" />
+            <rect x="8" y="1" width="1" height="1" fill="#808890" />
+            <rect x="11" y="1" width="1" height="1" fill="#808890" />
+          </svg>
+          <span class="cap">Resume<br /><span class="note">READ &amp; PRINT</span></span>
+        </button>
+
+        <!-- OPERATING SYSTEM -->
+        <button class="journey-card" type="button" data-journey="os">
+          <svg viewBox="0 0 16 16" aria-hidden="true" shape-rendering="crispEdges">
+            <rect x="1" y="2" width="3" height="9" fill="#c0c8c8" />
+            <rect x="1" y="2" width="3" height="1" fill="#202020" />
+            <rect x="2" y="4" width="1" height="1" fill="#50b848" />
+            <rect x="5" y="1" width="10" height="8" fill="#c0c8c8" />
+            <rect x="6" y="2" width="8" height="5" fill="#3c2f52" />
+            <rect x="6" y="2" width="8" height="1" fill="#8fd8f0" />
+            <rect x="7" y="4" width="4" height="1" fill="#7fd8c0" />
+            <rect x="7" y="5" width="2" height="1" fill="#7fd8c0" />
+            <rect x="9" y="9" width="2" height="1" fill="#808890" />
+            <rect x="4" y="11" width="9" height="3" fill="#c0c8c8" />
+            <rect x="5" y="12" width="7" height="1" fill="#606870" />
+            <rect x="13" y="12" width="2" height="2" fill="#c0c8c8" />
+          </svg>
+          <span class="cap">Operating System<br /><span class="note">MINI DESKTOP</span></span>
+        </button>
+
+        <!-- VIDEO GAME -->
+        <button class="journey-card" type="button" data-journey="game">
+          <svg viewBox="0 0 16 16" aria-hidden="true" shape-rendering="crispEdges">
+            <rect x="2" y="2" width="11" height="7" fill="#c0c8c8" />
+            <rect x="3" y="3" width="9" height="5" fill="#3c2f52" />
+            <rect x="4" y="4" width="3" height="1" fill="#cc0000" />
+            <rect x="4" y="6" width="6" height="1" fill="#50b848" />
+            <rect x="1" y="9" width="8" height="5" fill="#8f7fd8" />
+            <rect x="2" y="10" width="2" height="1" fill="#202020" />
+            <rect x="3" y="9" width="1" height="3" fill="#202020" />
+            <rect x="6" y="10" width="1" height="1" fill="#cc0000" />
+            <rect x="7" y="11" width="1" height="1" fill="#3888d8" />
+            <rect x="10" y="10" width="5" height="4" fill="#6c5b9c" />
+            <rect x="11" y="11" width="1" height="1" fill="#202020" />
+            <rect x="13" y="11" width="1" height="1" fill="#202020" />
+          </svg>
+          <span class="cap">Video Game<br /><span class="note">DEVOPS ARCADE</span></span>
+        </button>
+      </div>
+
+      <div class="journey-foot">
+        <span>&#9664; &#9654; MOVE</span>
+        <span>ENTER SELECT</span>
+        <span>ESC TITLE SCREEN</span>
+      </div>
+    </section>
+
+    <!-- ================= RESUME WINDOW ================= -->
+    <div
+      id="resume-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="resume-name"
+    >
+      <div class="paper">
+        <div class="paper-head">
+          <span>RESUME.TXT &mdash; C. S. AGUILAR</span>
+          <div class="btns">
+            <button class="win-btn" type="button" id="resume-print" aria-label="Print resume">
+              P
+            </button>
+            <button class="win-btn" type="button" id="resume-close" aria-label="Close resume">
+              X
+            </button>
+          </div>
+        </div>
+        <div class="paper-body">
+          <h3 id="resume-name">Christian Sambere Aguilar</h3>
+          <p style="margin: 0">DevOps &amp; Systems Administrator</p>
+
+          <h4>SUMMARY</h4>
+          <p style="margin: 0">
+            Systems administrator moving into DevOps, with four years keeping
+            Linux fleets and business applications healthy. Comfortable across
+            AWS, Docker, CI/CD pipelines, Bash automation and full monitoring
+            stacks built on Prometheus, Grafana and Nagios.
+          </p>
+
+          <h4>PROFESSIONAL EXPERIENCE</h4>
+          <p class="role">Application System Administrator</p>
+          <p class="meta">ADEC Innovations Corp &middot; Apr 2024 &ndash; Nov 2025</p>
+          <ul>
+            <li>Hardened Ubuntu servers: patch cycles, firewall rules, SSH key-only access.</li>
+            <li>Containerized internal services with Docker to standardize deployments.</li>
+            <li>Built Grafana + Prometheus dashboards with exporters on every node.</li>
+          </ul>
+
+          <p class="role">Junior IT Linux System Administrator</p>
+          <p class="meta">Z GetCare Systems Inc &middot; Aug 2021 &ndash; Apr 2024</p>
+          <ul>
+            <li>Monitored uptime with Nagios and resolved incidents through log triage.</li>
+            <li>Automated routine ops with Bash scripting and cron-driven jobs.</li>
+            <li>Ran PostgreSQL maintenance, replicas and verified restore drills.</li>
+          </ul>
+
+          <h4>CORE SKILLS</h4>
+          <ul>
+            <li>Cloud: AWS EC2, RDS, S3, Lambda, CloudWatch</li>
+            <li>DevOps: Docker, Jenkins, Ansible, Git / SVN, OutSystems</li>
+            <li>Scripting: Bash, Python, PowerShell, cron</li>
+            <li>Monitoring &amp; Security: Prometheus, Grafana, Nagios, OWASP ZAP</li>
+          </ul>
+
+          <h4>KEY PROJECTS</h4>
+          <ul>
+            <li>Infrastructure Monitoring Stack &mdash; Grafana, Prometheus, Docker</li>
+            <li>Automated Backup &amp; Recovery &mdash; AWS RDS, S3, Bash</li>
+            <li>PostgreSQL Automated Maintenance &mdash; Bash, cron, PostgreSQL</li>
+            <li>System Utilization Alerting &mdash; Bash, cron, mail</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= MINI OPERATING SYSTEM ================= -->
+    <section id="os" aria-label="Mini operating system">
+      <!-- BOOT -->
+      <div id="os-boot" role="status" aria-live="polite"></div>
+
+      <!-- LOGIN -->
+      <div id="os-login">
+        <div class="win" role="dialog" aria-modal="true" aria-labelledby="login-title">
+          <div class="win-bar">
+            <span id="login-title">WELCOME TO DEVOPS CHAN OS</span>
+            <div class="btns">
+              <button class="win-btn" type="button" aria-label="Help">?</button>
+            </div>
+          </div>
+          <div class="win-body">
+            <p style="margin: 0 0 4px; font-size: 9px; line-height: 1.9">
+              Type a user name and password to log on to DevOps Chan OS.
+            </p>
+            <form id="login-form">
+              <div class="login-row">
+                <label for="os-user">Username</label>
+                <input id="os-user" name="user" value="guest" autocomplete="off" />
+              </div>
+              <div class="login-row">
+                <label for="os-pass">Password</label>
+                <input id="os-pass" name="pass" type="password" autocomplete="off" />
+              </div>
+              <p
+                id="login-hint"
+                style="margin: 12px 0 0; font-size: 8px; color: #405060"
+              >
+                Hint: any password works &mdash; this box only guards nostalgia.
+              </p>
+              <div class="win-actions">
+                <button class="os-btn" type="submit">OK</button>
+                <button class="os-btn" type="button" id="login-cancel">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- DESKTOP -->
+      <div id="os-desktop">
+        <div class="desk" id="desk">
+          <div class="icon-col">
+            <button class="desk-icon" type="button" data-app="terminal">
+              <svg viewBox="0 0 16 16" aria-hidden="true" shape-rendering="crispEdges">
+                <rect x="1" y="2" width="14" height="12" fill="#202020" />
+                <rect x="2" y="3" width="12" height="10" fill="#0d0a14" />
+                <rect x="3" y="5" width="2" height="1" fill="#f0d060" />
+                <rect x="6" y="5" width="4" height="1" fill="#7fd8c0" />
+                <rect x="3" y="7" width="6" height="1" fill="#7fd8c0" />
+                <rect x="3" y="9" width="1" height="1" fill="#7fd8c0" />
+              </svg>
+              Terminal
+            </button>
+            <button class="desk-icon" type="button" data-app="projects">
+              <svg viewBox="0 0 16 16" aria-hidden="true" shape-rendering="crispEdges">
+                <rect x="1" y="4" width="14" height="9" fill="#c88848" />
+                <rect x="1" y="3" width="6" height="1" fill="#c88848" />
+                <rect x="2" y="6" width="12" height="6" fill="#f0c880" />
+                <rect x="1" y="12" width="14" height="1" fill="#202020" />
+              </svg>
+              Projects
+            </button>
+            <button class="desk-icon" type="button" data-app="skills">
+              <svg viewBox="0 0 16 16" aria-hidden="true" shape-rendering="crispEdges">
+                <rect x="2" y="2" width="12" height="12" fill="#c0c8c8" />
+                <rect x="3" y="3" width="10" height="10" fill="#e8f0f0" />
+                <rect x="4" y="10" width="2" height="2" fill="#50b848" />
+                <rect x="7" y="7" width="2" height="5" fill="#3888d8" />
+                <rect x="10" y="5" width="2" height="7" fill="#cc0000" />
+              </svg>
+              Skills
+            </button>
+            <button class="desk-icon" type="button" data-app="resume">
+              <svg viewBox="0 0 16 16" aria-hidden="true" shape-rendering="crispEdges">
+                <rect x="3" y="1" width="10" height="14" fill="#202020" />
+                <rect x="4" y="2" width="8" height="12" fill="#f4f4e4" />
+                <rect x="6" y="4" width="4" height="1" fill="#3060a8" />
+                <rect x="6" y="6" width="4" height="1" fill="#a0b0c0" />
+                <rect x="6" y="8" width="4" height="1" fill="#a0b0c0" />
+              </svg>
+              Resume
+            </button>
+            <button class="desk-icon" type="button" data-app="bin">
+              <svg viewBox="0 0 16 16" aria-hidden="true" shape-rendering="crispEdges">
+                <rect x="4" y="4" width="8" height="10" fill="#c0c8c8" />
+                <rect x="3" y="3" width="10" height="1" fill="#808890" />
+                <rect x="6" y="6" width="1" height="6" fill="#808890" />
+                <rect x="9" y="6" width="1" height="6" fill="#808890" />
+                <rect x="4" y="13" width="8" height="1" fill="#202020" />
+              </svg>
+              Recycle Bin
+            </button>
+          </div>
+        </div>
+
+        <div id="start-menu" role="menu" aria-label="Start menu">
+          <ul>
+            <li><button type="button" role="menuitem" data-app="terminal">Terminal</button></li>
+            <li><button type="button" role="menuitem" data-app="projects">Projects</button></li>
+            <li><button type="button" role="menuitem" data-app="skills">Skills</button></li>
+            <li><button type="button" role="menuitem" data-app="resume">Resume</button></li>
+            <li><button type="button" role="menuitem" data-app="game">Arcade</button></li>
+            <li><button type="button" role="menuitem" data-app="shutdown">Shut Down...</button></li>
+          </ul>
+        </div>
+
+        <div class="taskbar">
+          <button class="start-btn" type="button" id="start-btn" aria-expanded="false">
+            <svg viewBox="0 0 8 8" width="14" height="14" aria-hidden="true" shape-rendering="crispEdges">
+              <rect x="0" y="0" width="3" height="3" fill="#cc0000" />
+              <rect x="4" y="0" width="3" height="3" fill="#50b848" />
+              <rect x="0" y="4" width="3" height="3" fill="#3888d8" />
+              <rect x="4" y="4" width="3" height="3" fill="#ffd800" />
+            </svg>
+            START
+          </button>
+          <div class="task-list" id="task-list"></div>
+          <div class="tray"><span>us</span><span id="os-clock">--:--</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= ARCADE ================= -->
+    <section id="arcade" aria-label="Mini game arcade">
+      <div class="wrap">
+        <header class="topbar">
+          <h2>&#9654; DEVOPS ARCADE &mdash; C. S. AGUILAR</h2>
+          <button class="nes-btn btn is-secondary" type="button" id="back-btn">
+            &lt; SELECT JOURNEY
+          </button>
+        </header>
+
+        <!-- GAME 1 -->
+        <article class="nes-container with-title is-rounded box">
+          <h3 class="title">1. SERVER SMASHER</h3>
+          <p style="font-size: 9px; margin-top: 0">
+            Bugs are surfacing across the rack. Patch every bug you can in 30
+            seconds.
+          </p>
+          <div class="stat-row" style="margin-bottom: 12px">
+            <span>SCORE: <span id="smash-score">0</span></span>
+            <span>TIME: <span id="smash-time">30</span>s</span>
+            <span>BEST: <span id="smash-best">0</span></span>
+            <button class="nes-btn btn is-go" type="button" id="smash-start">
+              START
+            </button>
+          </div>
+          <div class="rack-grid" id="rack-grid"></div>
+          <p class="verdict" id="smash-verdict" role="status"></p>
+        </article>
+
+        <!-- GAME 2 -->
+        <article class="nes-container with-title is-rounded box">
+          <h3 class="title">2. LOG FILE CATCHER</h3>
+          <p style="font-size: 9px; margin-top: 0">
+            Move the Pok&eacute;ball to collect SUCCESS logs and CPU cycles.
+            Dodge 500 errors and memory leaks.
+          </p>
+          <div class="stat-row" style="margin-bottom: 12px">
+            <span>SCORE: <span id="catch-score">0</span></span>
+            <button class="nes-btn btn is-go" type="button" id="catch-start">
+              START
+            </button>
+          </div>
+          <div class="hp-row" style="margin-bottom: 12px">
+            <span>HP</span>
+            <progress
+              class="nes-progress is-success"
+              id="catch-hp"
+              value="100"
+              max="100"
+            ></progress>
+          </div>
+          <canvas id="catcher-canvas" width="640" height="320" role="img"
+            aria-label="Log file catcher play field"></canvas>
+          <p class="verdict" id="catch-verdict" role="status"></p>
+        </article>
+
+        <!-- GAME 3 -->
+        <article class="nes-container with-title is-rounded box">
+          <h3 class="title">3. CI/CD PIPE MASTER</h3>
+          <p style="font-size: 9px; margin-top: 0">
+            Memorize the safe route for 3 seconds, then reproduce the gate
+            states and ship the deploy.
+          </p>
+          <div class="stat-row" style="margin-bottom: 12px">
+            <span>STREAK: <span id="pipe-streak">0</span></span>
+            <button class="nes-btn btn is-go" type="button" id="pipe-start">
+              SHOW ROUTE
+            </button>
+            <button class="nes-btn btn" type="button" id="pipe-deploy" disabled>
+              DEPLOY
+            </button>
+          </div>
+          <div class="gate-row" id="gate-row"></div>
+          <p class="verdict" id="pipe-verdict" role="status"></p>
+        </article>
+
+        <footer class="nes-container is-rounded box no-inner">
+          <p style="margin: 0; font-size: 9px">
+            Ready for the real stack?
+            <a href="/" style="color: #cc0000">&#9654; OPEN THE PORTFOLIO</a>
+          </p>
+        </footer>
+      </div>
+    </section>
+
+    <!-- ================= QUIT OVERLAY ================= -->
+    <div id="quit-overlay" role="dialog" aria-modal="true" aria-labelledby="quit-title">
+      <div class="nes-container is-rounded box">
+        <h2 id="quit-title" style="margin: 0 0 12px; font-size: 13px; color: #cc0000">
+          GAME SAVED!
+        </h2>
+        <p style="font-size: 9px">
+          Progress stored for CHRISTIAN SAMBERE AGUILAR. Thanks for playing
+          &mdash; uptime resumes shortly.
+        </p>
+        <button class="nes-btn btn" type="button" id="quit-close">
+          &#9654; RESUME
+        </button>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        "use strict";
+
+        /* ---------------- Title screen menu ---------------- */
+        var titleScreen = document.getElementById("title-screen");
+        var arcade = document.getElementById("arcade");
+        var quitOverlay = document.getElementById("quit-overlay");
+        var items = Array.prototype.slice.call(
+          document.querySelectorAll(".menu-item")
+        );
+        var cursor = 0;
+
+        function setCursor(index) {
+          cursor = (index + items.length) % items.length;
+          items.forEach(function (el, i) {
+            el.classList.toggle("is-active", i === cursor);
+          });
+          items[cursor].focus();
+        }
+
+        function openArcade() {
+          titleScreen.style.display = "none";
+          arcade.style.display = "block";
+          window.scrollTo(0, 0);
+          buildRacks();
+          buildGates();
+          drawCatcher();
+        }
+
+        function closeArcade() {
+          arcade.style.display = "none";
+          stopSmasher();
+          stopCatcher();
+          openJourney();
+        }
+
+        function runAction(action) {
+          if (action === "new") {
+            openJourney();
+          } else if (action === "continue") {
+            window.location.href = "/";
+          } else if (action === "quit") {
+            quitOverlay.style.display = "flex";
+            document.getElementById("quit-close").focus();
+          }
+        }
+
+        items.forEach(function (el, i) {
+          el.addEventListener("click", function () {
+            setCursor(i);
+            runAction(el.getAttribute("data-action"));
+          });
+        });
+
+        document.addEventListener("keydown", function (e) {
+          if (titleScreen.style.display === "none") return;
+          if (quitOverlay.style.display === "flex") return;
+          if (e.key === "ArrowDown") {
+            e.preventDefault();
+            setCursor(cursor + 1);
+          } else if (e.key === "ArrowUp") {
+            e.preventDefault();
+            setCursor(cursor - 1);
+          } else if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            runAction(items[cursor].getAttribute("data-action"));
+          }
+        });
+
+        document.getElementById("quit-close").addEventListener("click", function () {
+          quitOverlay.style.display = "none";
+          items[cursor].focus();
+        });
+
+        document.getElementById("back-btn").addEventListener("click", closeArcade);
+
+        /* ---------------- Confetti ---------------- */
+        function confetti() {
+          var layer = document.createElement("div");
+          layer.className = "confetti";
+          var colors = ["#CC0000", "#50B848", "#FFD800", "#3888D8", "#FFFFFF"];
+          for (var i = 0; i < 60; i++) {
+            var bit = document.createElement("i");
+            bit.style.left = Math.random() * 100 + "%";
+            bit.style.backgroundColor = colors[i % colors.length];
+            bit.style.animationDuration = 1.4 + Math.random() * 1.4 + "s";
+            bit.style.animationDelay = Math.random() * 0.4 + "s";
+            layer.appendChild(bit);
+          }
+          document.body.appendChild(layer);
+          setTimeout(function () {
+            layer.remove();
+          }, 3200);
+        }
+
+        /* ---------------- GAME 1: Server Smasher ---------------- */
+        var grid = document.getElementById("rack-grid");
+        var smashScoreEl = document.getElementById("smash-score");
+        var smashTimeEl = document.getElementById("smash-time");
+        var smashBestEl = document.getElementById("smash-best");
+        var smashVerdict = document.getElementById("smash-verdict");
+        var smashScore = 0;
+        var smashBest = 0;
+        var smashTime = 30;
+        var smashTick = null;
+        var smashSpawn = null;
+        var smashRunning = false;
+
+        var RACK_SVG =
+          '<svg viewBox="0 0 12 16" width="34" height="46" aria-hidden="true" shape-rendering="crispEdges">' +
+          '<rect x="1" y="1" width="10" height="14" fill="#404058"/>' +
+          '<rect x="3" y="3" width="6" height="2" fill="#C0C0C0"/>' +
+          '<rect x="3" y="6" width="6" height="2" fill="#C0C0C0"/>' +
+          '<rect x="3" y="9" width="6" height="2" fill="#C0C0C0"/>' +
+          '<rect x="1" y="1" width="1" height="14" fill="#202020"/>' +
+          '<rect x="10" y="1" width="1" height="14" fill="#202020"/>' +
+          "</svg>";
+
+        var BUG_SVG =
+          '<svg class="bug" viewBox="0 0 12 12" aria-hidden="true" shape-rendering="crispEdges">' +
+          '<rect x="3" y="2" width="6" height="8" fill="#CC0000"/>' +
+          '<rect x="1" y="4" width="2" height="1" fill="#202020"/>' +
+          '<rect x="9" y="4" width="2" height="1" fill="#202020"/>' +
+          '<rect x="1" y="7" width="2" height="1" fill="#202020"/>' +
+          '<rect x="9" y="7" width="2" height="1" fill="#202020"/>' +
+          '<rect x="4" y="4" width="1" height="1" fill="#FFFFFF"/>' +
+          '<rect x="7" y="4" width="1" height="1" fill="#FFFFFF"/>' +
+          '<rect x="4" y="0" width="1" height="2" fill="#202020"/>' +
+          '<rect x="7" y="0" width="1" height="2" fill="#202020"/>' +
+          "</svg>";
+
+        function buildRacks() {
+          if (grid.childElementCount) return;
+          for (var i = 0; i < 9; i++) {
+            var cell = document.createElement("button");
+            cell.type = "button";
+            cell.className = "rack";
+            cell.setAttribute("aria-label", "Server rack " + (i + 1));
+            cell.innerHTML =
+              '<span style="position:absolute;opacity:.5">' +
+              RACK_SVG +
+              "</span>" +
+              BUG_SVG;
+            cell.addEventListener("click", function () {
+              if (!smashRunning || !this.classList.contains("has-bug")) return;
+              this.classList.remove("has-bug");
+              this.classList.add("patched");
+              var self = this;
+              setTimeout(function () {
+                self.classList.remove("patched");
+              }, 140);
+              smashScore += 1;
+              smashScoreEl.textContent = String(smashScore);
+            });
+            grid.appendChild(cell);
+          }
+        }
+
+        function stopSmasher() {
+          smashRunning = false;
+          clearInterval(smashTick);
+          clearInterval(smashSpawn);
+          Array.prototype.forEach.call(grid.children, function (c) {
+            c.classList.remove("has-bug");
+          });
+        }
+
+        document.getElementById("smash-start").addEventListener("click", function () {
+          stopSmasher();
+          smashRunning = true;
+          smashScore = 0;
+          smashTime = 30;
+          smashScoreEl.textContent = "0";
+          smashTimeEl.textContent = "30";
+          smashVerdict.textContent = "PATCHING IN PROGRESS...";
+          smashVerdict.className = "verdict";
+
+          smashTick = setInterval(function () {
+            smashTime -= 1;
+            smashTimeEl.textContent = String(smashTime);
+            if (smashTime <= 0) {
+              stopSmasher();
+              if (smashScore > smashBest) {
+                smashBest = smashScore;
+                smashBestEl.textContent = String(smashBest);
+              }
+              smashVerdict.textContent =
+                smashScore >= 20
+                  ? "INCIDENT RESOLVED! " + smashScore + " BUGS PATCHED."
+                  : "SHIFT OVER. " + smashScore + " BUGS PATCHED.";
+              smashVerdict.className =
+                "verdict " + (smashScore >= 20 ? "ok" : "bad");
+              if (smashScore >= 20) confetti();
+            }
+          }, 1000);
+
+          smashSpawn = setInterval(function () {
+            var cells = grid.children;
+            var pick = cells[Math.floor(Math.random() * cells.length)];
+            pick.classList.add("has-bug");
+            setTimeout(function () {
+              pick.classList.remove("has-bug");
+            }, 700);
+          }, 620);
+        });
+
+        /* ---------------- GAME 2: Log File Catcher ---------------- */
+        var canvas = document.getElementById("catcher-canvas");
+        var ctx = canvas.getContext("2d");
+        var W = canvas.width;
+        var H = canvas.height;
+        var catchScoreEl = document.getElementById("catch-score");
+        var hpEl = document.getElementById("catch-hp");
+        var catchVerdict = document.getElementById("catch-verdict");
+        var paddleX = W / 2;
+        var items2 = [];
+        var catchScore = 0;
+        var hp = 100;
+        var catchRunning = false;
+        var raf = null;
+        var lastSpawn = 0;
+
+        var GOOD = [
+          { label: "OK", color: "#50B848" },
+          { label: "CPU", color: "#3888D8" },
+        ];
+        var BAD = [
+          { label: "500", color: "#CC0000" },
+          { label: "LEAK", color: "#B040C0" },
+        ];
+
+        function pointerX(evt) {
+          var rect = canvas.getBoundingClientRect();
+          var clientX =
+            evt.touches && evt.touches.length ? evt.touches[0].clientX : evt.clientX;
+          return ((clientX - rect.left) / rect.width) * W;
+        }
+
+        canvas.addEventListener("mousemove", function (e) {
+          paddleX = pointerX(e);
+          if (!catchRunning) drawCatcher();
+        });
+        canvas.addEventListener(
+          "touchmove",
+          function (e) {
+            e.preventDefault();
+            paddleX = pointerX(e);
+            if (!catchRunning) drawCatcher();
+          },
+          { passive: false }
+        );
+
+        function drawBall(x, y, r) {
+          ctx.fillStyle = "#CC0000";
+          ctx.beginPath();
+          ctx.arc(x, y, r, Math.PI, 0);
+          ctx.fill();
+          ctx.fillStyle = "#FFFFFF";
+          ctx.beginPath();
+          ctx.arc(x, y, r, 0, Math.PI);
+          ctx.fill();
+          ctx.fillStyle = "#202020";
+          ctx.fillRect(x - r, y - 3, r * 2, 6);
+          ctx.beginPath();
+          ctx.arc(x, y, 7, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = "#F8F8D8";
+          ctx.beginPath();
+          ctx.arc(x, y, 4, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        function drawCatcher() {
+          ctx.fillStyle = "#101820";
+          ctx.fillRect(0, 0, W, H);
+          ctx.strokeStyle = "rgba(80,184,72,0.18)";
+          ctx.lineWidth = 1;
+          for (var gx = 0; gx < W; gx += 32) {
+            ctx.beginPath();
+            ctx.moveTo(gx, 0);
+            ctx.lineTo(gx, H);
+            ctx.stroke();
+          }
+          ctx.font = '10px "Press Start 2P", monospace';
+          ctx.textAlign = "center";
+          items2.forEach(function (it) {
+            ctx.fillStyle = it.color;
+            ctx.fillRect(it.x - 22, it.y - 11, 44, 22);
+            ctx.fillStyle = "#202020";
+            ctx.fillRect(it.x - 22, it.y - 11, 44, 3);
+            ctx.fillStyle = it.color === "#CC0000" || it.color === "#B040C0"
+              ? "#FFFFFF"
+              : "#202020";
+            ctx.fillText(it.label, it.x, it.y + 5);
+          });
+          drawBall(Math.max(20, Math.min(W - 20, paddleX)), H - 26, 18);
+          ctx.fillStyle = "#F8F8D8";
+          ctx.textAlign = "left";
+          ctx.fillText("SCORE " + catchScore, 12, 22);
+        }
+
+        function stopCatcher() {
+          catchRunning = false;
+          if (raf) cancelAnimationFrame(raf);
+          raf = null;
+        }
+
+        function loop(ts) {
+          if (!catchRunning) return;
+          if (ts - lastSpawn > 620) {
+            lastSpawn = ts;
+            var bad = Math.random() < 0.4;
+            var kind = bad
+              ? BAD[Math.floor(Math.random() * BAD.length)]
+              : GOOD[Math.floor(Math.random() * GOOD.length)];
+            items2.push({
+              x: 30 + Math.random() * (W - 60),
+              y: -14,
+              vy: 2 + Math.random() * 2,
+              bad: bad,
+              label: kind.label,
+              color: kind.color,
+            });
+          }
+
+          var px = Math.max(20, Math.min(W - 20, paddleX));
+          for (var i = items2.length - 1; i >= 0; i--) {
+            var it = items2[i];
+            it.y += it.vy;
+            var hit =
+              it.y > H - 48 && it.y < H - 4 && Math.abs(it.x - px) < 34;
+            if (hit) {
+              items2.splice(i, 1);
+              if (it.bad) {
+                catchScore = Math.max(0, catchScore - 10);
+                hp = Math.max(0, hp - 20);
+              } else {
+                catchScore += 5;
+              }
+              catchScoreEl.textContent = String(catchScore);
+              hpEl.value = hp;
+              hpEl.className =
+                "nes-progress " +
+                (hp > 60 ? "is-success" : hp > 30 ? "is-warning" : "is-error");
+              if (hp <= 0) {
+                stopCatcher();
+                catchVerdict.textContent =
+                  "SYSTEM DOWN. FINAL SCORE " + catchScore + ".";
+                catchVerdict.className = "verdict bad";
+                drawCatcher();
+                return;
+              }
+            } else if (it.y > H + 20) {
+              items2.splice(i, 1);
+            }
+          }
+          drawCatcher();
+          raf = requestAnimationFrame(loop);
+        }
+
+        document.getElementById("catch-start").addEventListener("click", function () {
+          stopCatcher();
+          items2 = [];
+          catchScore = 0;
+          hp = 100;
+          lastSpawn = 0;
+          catchScoreEl.textContent = "0";
+          hpEl.value = 100;
+          hpEl.className = "nes-progress is-success";
+          catchVerdict.textContent = "UPTIME HOLDING...";
+          catchVerdict.className = "verdict";
+          catchRunning = true;
+          raf = requestAnimationFrame(loop);
+        });
+
+        /* ---------------- GAME 3: CI/CD Pipe Master ---------------- */
+        var gateRow = document.getElementById("gate-row");
+        var pipeVerdict = document.getElementById("pipe-verdict");
+        var pipeStreakEl = document.getElementById("pipe-streak");
+        var deployBtn = document.getElementById("pipe-deploy");
+        var GATES = ["LINT", "BUILD", "TEST"];
+        var route = [];
+        var streak = 0;
+        var locked = true;
+
+        function buildGates() {
+          if (gateRow.childElementCount) return;
+          GATES.forEach(function (name, i) {
+            var gate = document.createElement("button");
+            gate.type = "button";
+            gate.className = "gate is-locked";
+            gate.dataset.on = "false";
+            gate.dataset.index = String(i);
+            gate.innerHTML =
+              '<span class="light" aria-hidden="true"></span>' +
+              '<span class="label">' +
+              name +
+              "</span>" +
+              '<span class="state">OFF</span>';
+            gate.addEventListener("click", function () {
+              if (locked) return;
+              var on = this.dataset.on !== "true";
+              this.dataset.on = String(on);
+              this.querySelector(".state").textContent = on ? "ON" : "OFF";
+            });
+            gateRow.appendChild(gate);
+          });
+        }
+
+        function paintGates(states, showState) {
+          Array.prototype.forEach.call(gateRow.children, function (gate, i) {
+            gate.dataset.on = String(states[i]);
+            gate.querySelector(".state").textContent = showState
+              ? states[i]
+                ? "ON"
+                : "OFF"
+              : "?";
+          });
+        }
+
+        function setLocked(value) {
+          locked = value;
+          Array.prototype.forEach.call(gateRow.children, function (gate) {
+            gate.classList.toggle("is-locked", value);
+          });
+          deployBtn.disabled = value;
+        }
+
+        document.getElementById("pipe-start").addEventListener("click", function () {
+          buildGates();
+          route = GATES.map(function () {
+            return Math.random() < 0.5;
+          });
+          setLocked(true);
+          paintGates(route, true);
+          pipeVerdict.textContent = "MEMORIZE THE SAFE ROUTE...";
+          pipeVerdict.className = "verdict";
+          var count = 3;
+          var countdown = setInterval(function () {
+            count -= 1;
+            if (count <= 0) {
+              clearInterval(countdown);
+              paintGates([false, false, false], true);
+              setLocked(false);
+              pipeVerdict.textContent = "REPLICATE THE ROUTE, THEN DEPLOY.";
+            } else {
+              pipeVerdict.textContent = "MEMORIZE THE SAFE ROUTE... " + count;
+            }
+          }, 1000);
+        });
+
+        deployBtn.addEventListener("click", function () {
+          var guess = Array.prototype.map.call(gateRow.children, function (gate) {
+            return gate.dataset.on === "true";
+          });
+          var ok = guess.every(function (value, i) {
+            return value === route[i];
+          });
+          setLocked(true);
+          if (ok) {
+            streak += 1;
+            pipeStreakEl.textContent = String(streak);
+            pipeVerdict.textContent = "DEPLOYMENT SUCCESSFUL! PIPELINE GREEN.";
+            pipeVerdict.className = "verdict ok";
+            confetti();
+          } else {
+            streak = 0;
+            pipeStreakEl.textContent = "0";
+            pipeVerdict.textContent =
+              "BUILD FAILED. ROLLING BACK &mdash; SHOW THE ROUTE AGAIN.";
+            pipeVerdict.textContent =
+              "BUILD FAILED. ROLLING BACK - SHOW THE ROUTE AGAIN.";
+            pipeVerdict.className = "verdict bad";
+          }
+        });
+
+        /* ---------------- JOURNEY SELECT ---------------- */
+        var journey = document.getElementById("journey");
+        var cards = Array.prototype.slice.call(
+          document.querySelectorAll(".journey-card")
+        );
+        var jCursor = 0;
+
+        function openJourney() {
+          titleScreen.style.display = "none";
+          arcade.style.display = "none";
+          osScreen.style.display = "none";
+          journey.style.display = "flex";
+          window.scrollTo(0, 0);
+          setJourneyCursor(jCursor);
+        }
+
+        function backToTitle() {
+          journey.style.display = "none";
+          osScreen.style.display = "none";
+          arcade.style.display = "none";
+          titleScreen.style.display = "flex";
+          window.scrollTo(0, 0);
+        }
+
+        function setJourneyCursor(index) {
+          jCursor = (index + cards.length) % cards.length;
+          cards.forEach(function (el, i) {
+            el.classList.toggle("is-active", i === jCursor);
+          });
+          cards[jCursor].focus();
+        }
+
+        function runJourney(kind) {
+          if (kind === "full") {
+            window.location.href = "/";
+          } else if (kind === "resume") {
+            openResume();
+          } else if (kind === "os") {
+            openOS();
+          } else if (kind === "game") {
+            journey.style.display = "none";
+            openArcade();
+          }
+        }
+
+        cards.forEach(function (el, i) {
+          el.addEventListener("click", function () {
+            setJourneyCursor(i);
+            runJourney(el.getAttribute("data-journey"));
+          });
+        });
+
+        journey.addEventListener("keydown", function (e) {
+          if (resumeOverlay.style.display === "flex") return;
+          if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+            e.preventDefault();
+            setJourneyCursor(jCursor + 1);
+          } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+            e.preventDefault();
+            setJourneyCursor(jCursor - 1);
+          } else if (e.key === "Escape") {
+            e.preventDefault();
+            backToTitle();
+          }
+        });
+
+        /* ---------------- RESUME WINDOW ---------------- */
+        var resumeOverlay = document.getElementById("resume-overlay");
+        var resumeCloseBtn = document.getElementById("resume-close");
+
+        function openResume() {
+          resumeOverlay.style.display = "flex";
+          resumeCloseBtn.focus();
+        }
+
+        function closeResume() {
+          resumeOverlay.style.display = "none";
+          if (journey.style.display === "flex") cards[jCursor].focus();
+        }
+
+        resumeCloseBtn.addEventListener("click", closeResume);
+        document
+          .getElementById("resume-print")
+          .addEventListener("click", function () {
+            window.print();
+          });
+        resumeOverlay.addEventListener("click", function (e) {
+          if (e.target === resumeOverlay) closeResume();
+        });
+        resumeOverlay.addEventListener("keydown", function (e) {
+          if (e.key === "Escape") closeResume();
+        });
+
+        /* ---------------- MINI OS ---------------- */
+        var osScreen = document.getElementById("os");
+        var osBoot = document.getElementById("os-boot");
+        var osLogin = document.getElementById("os-login");
+        var osDesktop = document.getElementById("os-desktop");
+        var desk = document.getElementById("desk");
+        var taskList = document.getElementById("task-list");
+        var startMenu = document.getElementById("start-menu");
+        var startBtn = document.getElementById("start-btn");
+        var bootTimers = [];
+        var zTop = 10;
+        var openApps = {};
+
+        var BOOT_LINES = [
+          "Starting DevOps Chan OS 98...",
+          '<span class="c">Copyright ChanSoft/2026 - Windows 98 vibes, Linux at heart.</span>',
+          'C:\\&gt; <span class="k">chan</span> is testing extended memory...',
+          "done.",
+          '<span class="c">Mounting /dev/portfolio ... ok</span>',
+          '<span class="c">systemd: reached target uptime.target</span>',
+          "I prefer Linux, but Windows makes me feel nostalgic.",
+          'C:\\&gt; <span class="k">WIN</span>',
+          "",
+          '&gt; PRESS ANY KEY TO START SYSTEM...<span class="cur">_</span>',
+        ];
+
+        function clearBootTimers() {
+          bootTimers.forEach(clearTimeout);
+          bootTimers = [];
+        }
+
+        function openOS() {
+          journey.style.display = "none";
+          titleScreen.style.display = "none";
+          arcade.style.display = "none";
+          osScreen.style.display = "block";
+          osBoot.style.display = "block";
+          osLogin.style.display = "none";
+          osDesktop.style.display = "none";
+          osBoot.innerHTML = "";
+          clearBootTimers();
+
+          BOOT_LINES.forEach(function (line, i) {
+            bootTimers.push(
+              setTimeout(function () {
+                var row = document.createElement("div");
+                row.innerHTML = line || "&nbsp;";
+                osBoot.appendChild(row);
+                if (i === BOOT_LINES.length - 1) osBoot.dataset.ready = "true";
+              }, 260 * i)
+            );
+          });
+        }
+
+        function showLogin() {
+          if (osBoot.dataset.ready !== "true") return;
+          osBoot.dataset.ready = "false";
+          osBoot.style.display = "none";
+          osLogin.style.display = "flex";
+          document.getElementById("os-pass").focus();
+        }
+
+        osBoot.addEventListener("click", showLogin);
+
+        function showDesktop() {
+          osLogin.style.display = "none";
+          osDesktop.style.display = "flex";
+          startBtn.focus();
+        }
+
+        document.getElementById("login-form").addEventListener("submit", function (e) {
+          e.preventDefault();
+          showDesktop();
+        });
+
+        document.getElementById("login-cancel").addEventListener("click", function () {
+          exitOS();
+        });
+
+        function exitOS() {
+          clearBootTimers();
+          Object.keys(openApps).forEach(function (key) {
+            closeApp(key);
+          });
+          osScreen.style.display = "none";
+          startMenu.style.display = "none";
+          startBtn.setAttribute("aria-expanded", "false");
+          openJourney();
+        }
+
+        /* clock */
+        function tickClock() {
+          var d = new Date();
+          var h = d.getHours();
+          var m = String(d.getMinutes()).padStart(2, "0");
+          var ap = h >= 12 ? "PM" : "AM";
+          h = h % 12 || 12;
+          document.getElementById("os-clock").textContent =
+            String(h).padStart(2, "0") + ":" + m + " " + ap;
+        }
+        tickClock();
+        setInterval(tickClock, 15000);
+
+        /* app content */
+        var APPS = {
+          projects: {
+            title: "Projects",
+            html:
+              "<h5>C:\\PORTFOLIO\\PROJECTS</h5><ul>" +
+              "<li><strong>Infrastructure Monitoring Stack</strong><br>Grafana + Prometheus with node exporters on every host.</li>" +
+              "<li><strong>Automated Backup &amp; Recovery</strong><br>AWS RDS replica pipelines, S3 retention, verified restore drills.</li>" +
+              "<li><strong>PostgreSQL Automated Maintenance</strong><br>Bash + cron vacuum, reindex and health reporting.</li>" +
+              "<li><strong>System Utilization Alerting</strong><br>Threshold alerts mailed straight from the box.</li>" +
+              "</ul>",
+          },
+          skills: {
+            title: "Skills",
+            html:
+              "<h5>SYSTEM PROPERTIES</h5><ul>" +
+              "<li><strong>Cloud:</strong> AWS EC2, RDS, S3, Lambda, CloudWatch</li>" +
+              "<li><strong>DevOps:</strong> Docker, Jenkins, Ansible, Git / SVN</li>" +
+              "<li><strong>Scripting:</strong> Bash, Python, PowerShell, cron</li>" +
+              "<li><strong>Monitoring:</strong> Prometheus, Grafana, Nagios, OWASP ZAP</li>" +
+              "</ul>",
+          },
+          bin: {
+            title: "Recycle Bin",
+            html:
+              "<h5>RECYCLE BIN</h5><ul>" +
+              "<li>manual-deploy.sh</li><li>works-on-my-machine.log</li>" +
+              "<li>friday-6pm-hotfix.patch</li><li>root-password.txt (shredded)</li>" +
+              "</ul>",
+          },
+          terminal: { title: "Terminal", terminal: true },
+        };
+
+        function makeWindow(key, title, x, y) {
+          var win = document.createElement("div");
+          win.className = "os-window";
+          win.style.left = x + "px";
+          win.style.top = y + "px";
+          win.style.zIndex = String(++zTop);
+          win.innerHTML =
+            '<div class="win-bar"><span>' +
+            title +
+            '</span><div class="btns">' +
+            '<button class="win-btn" type="button" data-close="1" aria-label="Close ' +
+            title +
+            '">X</button></div></div>';
+          desk.appendChild(win);
+
+          win.addEventListener("pointerdown", function () {
+            win.style.zIndex = String(++zTop);
+          });
+
+          var bar = win.querySelector(".win-bar");
+          var dragging = false;
+          var offX = 0;
+          var offY = 0;
+
+          bar.addEventListener("pointerdown", function (e) {
+            if (e.target.hasAttribute("data-close")) return;
+            dragging = true;
+            offX = e.clientX - win.offsetLeft;
+            offY = e.clientY - win.offsetTop;
+            bar.setPointerCapture(e.pointerId);
+          });
+          bar.addEventListener("pointermove", function (e) {
+            if (!dragging) return;
+            var maxX = desk.clientWidth - 60;
+            var maxY = desk.clientHeight - 30;
+            win.style.left = Math.max(0, Math.min(maxX, e.clientX - offX)) + "px";
+            win.style.top = Math.max(0, Math.min(maxY, e.clientY - offY)) + "px";
+          });
+          bar.addEventListener("pointerup", function () {
+            dragging = false;
+          });
+
+          win.querySelector("[data-close]").addEventListener("click", function () {
+            closeApp(key);
+          });
+
+          return win;
+        }
+
+        function addTaskButton(key, title) {
+          var btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "task-btn";
+          btn.textContent = title;
+          btn.addEventListener("click", function () {
+            var rec = openApps[key];
+            if (!rec) return;
+            var hidden = rec.win.style.display === "none";
+            rec.win.style.display = hidden ? "flex" : "none";
+            if (hidden) rec.win.style.zIndex = String(++zTop);
+          });
+          taskList.appendChild(btn);
+          return btn;
+        }
+
+        function closeApp(key) {
+          var rec = openApps[key];
+          if (!rec) return;
+          rec.win.remove();
+          rec.task.remove();
+          delete openApps[key];
+        }
+
+        function openApp(key) {
+          startMenu.style.display = "none";
+          startBtn.setAttribute("aria-expanded", "false");
+
+          if (key === "resume") {
+            openResume();
+            return;
+          }
+          if (key === "game") {
+            exitOS();
+            journey.style.display = "none";
+            openArcade();
+            return;
+          }
+          if (key === "shutdown") {
+            exitOS();
+            return;
+          }
+
+          var app = APPS[key];
+          if (!app) return;
+          if (openApps[key]) {
+            openApps[key].win.style.display = "flex";
+            openApps[key].win.style.zIndex = String(++zTop);
+            return;
+          }
+
+          var count = Object.keys(openApps).length;
+          var winW = Math.min(460, desk.clientWidth - 40);
+          var maxLeft = Math.max(8, desk.clientWidth - winW - 8);
+          var win = makeWindow(
+            key,
+            app.title,
+            Math.min(maxLeft, 120 + count * 90),
+            Math.min(Math.max(8, desk.clientHeight - 160), 40 + count * 44)
+          );
+
+          if (app.terminal) {
+            win.insertAdjacentHTML(
+              "beforeend",
+              '<div class="term" id="term-out"></div>' +
+                '<form class="term-form" id="term-form"><span>chan@devops:~$</span>' +
+                '<input id="term-in" autocomplete="off" spellcheck="false" aria-label="Terminal input" /></form>'
+            );
+            initTerminal();
+          } else {
+            var body = document.createElement("div");
+            body.className = "win-body";
+            body.innerHTML = app.html;
+            win.appendChild(body);
+          }
+
+          openApps[key] = { win: win, task: addTaskButton(key, app.title) };
+        }
+
+        Array.prototype.forEach.call(
+          document.querySelectorAll("[data-app]"),
+          function (el) {
+            el.addEventListener("click", function () {
+              openApp(el.getAttribute("data-app"));
+            });
+          }
+        );
+
+        startBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          var open = startMenu.style.display === "block";
+          startMenu.style.display = open ? "none" : "block";
+          startBtn.setAttribute("aria-expanded", String(!open));
+        });
+
+        osDesktop.addEventListener("click", function (e) {
+          if (!startMenu.contains(e.target) && e.target !== startBtn) {
+            startMenu.style.display = "none";
+            startBtn.setAttribute("aria-expanded", "false");
+          }
+        });
+
+        /* ---------------- TERMINAL ---------------- */
+        var TERM_HELP = [
+          "help      - list commands",
+          "whoami    - who is behind this box",
+          "skills    - stack inventory",
+          "projects  - shipped work",
+          "history   - roles and dates",
+          "contact   - reach me",
+          "neofetch  - system summary",
+          "open      - launch the portfolio",
+          "clear     - wipe the screen",
+          "exit      - leave DevOps Chan OS",
+        ];
+
+        var TERM = {
+          help: TERM_HELP,
+          whoami: [
+            "Christian Sambere Aguilar",
+            "DevOps & Systems Administrator - 4 years keeping Linux fleets alive.",
+          ],
+          skills: [
+            "cloud   : AWS EC2, RDS, S3, Lambda, CloudWatch",
+            "devops  : Docker, Jenkins, Ansible, Git/SVN, OutSystems",
+            "scripts : Bash, Python, PowerShell, cron",
+            "observe : Prometheus, Grafana, Nagios, OWASP ZAP",
+          ],
+          projects: [
+            "1. Infrastructure Monitoring Stack  [Grafana/Prometheus/Docker]",
+            "2. Automated Backup & Recovery      [AWS RDS/S3/Bash]",
+            "3. PostgreSQL Automated Maintenance [Bash/cron/PostgreSQL]",
+            "4. System Utilization Alerting      [Bash/cron/mail]",
+          ],
+          history: [
+            "Apr 2024 - Nov 2025  Application System Administrator, ADEC Innovations Corp",
+            "Aug 2021 - Apr 2024  Junior IT Linux System Administrator, Z GetCare Systems Inc",
+          ],
+          contact: [
+            "portfolio : / (Full Experience)",
+            "resume    : type 'open resume' or click Resume on the desktop",
+          ],
+          neofetch: [
+            "  OS      : DevOps Chan OS 98 (pixel edition)",
+            "  Host    : chan@devops",
+            "  Kernel  : bash 5.2 + a lot of cron",
+            "  Uptime  : 4 years in production",
+            "  Shell   : /bin/nostalgia",
+          ],
+        };
+
+        function initTerminal() {
+          var out = document.getElementById("term-out");
+          var form = document.getElementById("term-form");
+          var input = document.getElementById("term-in");
+
+          function print(text, cls) {
+            var row = document.createElement("div");
+            row.className = cls || "out";
+            row.textContent = text;
+            out.appendChild(row);
+            out.scrollTop = out.scrollHeight;
+          }
+
+          print("DevOps Chan OS terminal. Type 'help' to begin.", "out");
+
+          form.addEventListener("submit", function (e) {
+            e.preventDefault();
+            var raw = input.value.trim();
+            input.value = "";
+            if (!raw) return;
+            print("chan@devops:~$ " + raw);
+            var parts = raw.toLowerCase().split(/\s+/);
+            var cmd = parts[0];
+
+            if (cmd === "clear") {
+              out.innerHTML = "";
+            } else if (cmd === "exit") {
+              exitOS();
+            } else if (cmd === "open") {
+              if (parts[1] === "resume") {
+                openResume();
+                print("opening resume.txt ...");
+              } else {
+                print("launching portfolio ...");
+                window.location.href = "/";
+              }
+            } else if (TERM[cmd]) {
+              TERM[cmd].forEach(function (line) {
+                print(line);
+              });
+            } else {
+              print("chan: command not found: " + cmd, "err");
+            }
+          });
+
+          input.focus();
+        }
+
+        /* global escape */
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && osScreen.style.display === "block") {
+            if (resumeOverlay.style.display === "flex") return;
+            exitOS();
+          }
+          if (
+            osBoot.dataset.ready === "true" &&
+            osScreen.style.display === "block" &&
+            osBoot.style.display !== "none"
+          ) {
+            showLogin();
+          }
+        });
+
+        /* boot */
+        items[0].classList.add("is-active");
+      })();
+    </script>
+  </body>
+</html>

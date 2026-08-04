@@ -1,0 +1,110 @@
+@import 'tailwindcss';
+
+@theme inline {
+  --font-sans: var(--font-press-start), 'Courier New', monospace;
+  --font-mono: var(--font-press-start), 'Courier New', monospace;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--primary-foreground);
+  --color-success: var(--success);
+  --color-border: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+}
+
+:root {
+  color-scheme: light;
+  /* Game Boy Color / Pokémon UI palette */
+  --background: #f8f8d8;
+  --foreground: #202020;
+  --card: #ffffff;
+  --primary: #cc0000;
+  --primary-foreground: #ffffff;
+  --accent: #3888d8;
+  --success: #50b848;
+  --muted: #e8e8c0;
+  --muted-foreground: #585850;
+}
+
+html {
+  background-color: var(--background);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-press-start), 'Courier New', monospace;
+  font-size: 12px;
+  line-height: 1.6;
+  -webkit-font-smoothing: none;
+  image-rendering: pixelated;
+}
+
+/* --- nes.css overrides for the Pokémon dialogue-box look --- */
+.nes-container {
+  background-color: var(--card);
+  color: var(--foreground);
+  border-image-repeat: stretch;
+}
+
+.nes-container.with-title > .title {
+  background-color: var(--card);
+  color: var(--foreground);
+  font-size: 11px;
+}
+
+.nes-container.is-dark {
+  background-color: var(--foreground);
+  color: var(--card);
+}
+
+.nes-container.is-dark.with-title > .title {
+  background-color: var(--foreground);
+  color: var(--card);
+}
+
+.nes-btn {
+  font-size: 11px;
+}
+
+.nes-progress {
+  height: 24px;
+}
+
+/* pixel-perfect blinking menu arrow */
+@keyframes pixel-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.pixel-arrow {
+  animation: pixel-blink 1s steps(1, end) infinite;
+}
+
+/* soft "screen" scanline texture over the whole page */
+.gbc-screen::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(32, 32, 32, 0.05) 0px,
+    rgba(32, 32, 32, 0.05) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+}
