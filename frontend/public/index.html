@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Christian Sambere Aguilar - DevOps & Systems Administrator Portfolio. 4+ years optimizing cloud infrastructure, automating deployment workflows, and ensuring enterprise-grade system availability.">
+  <meta name="author" content="Christian Sambere Aguilar">
+  <meta name="theme-color" content="#1c2e17">
+  <title>CHRISTIAN SAMBERE AGUILAR | DevOps & Systems Administrator</title>
+
+  <!-- nes.css from CDN -->
+  <link rel="stylesheet" href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css">
+  <!-- Press Start 2P Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+  <!-- Inline Styles for Nokia 90s Handheld Aesthetic -->
+  <style>
+    :root {
+      --nokia-bg: #c2d8b1;
+      --nokia-dark: #1c2e17;
+      --nokia-border: #1c2e17;
+      --nokia-accent: #2d4a22;
+      --nokia-highlight: #8fb87a;
+      --nokia-shadow: #0f1a0c;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: 16px;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--nokia-bg);
+      color: var(--nokia-dark);
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.625rem; /* 10px base */
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Global nes.css overrides for Nokia palette */
+    .nes-container {
+      background-color: var(--nokia-bg);
+      border-color: var(--nokia-border);
+      box-shadow: 4px 4px 0 var(--nokia-shadow);
+    }
+
+    .nes-container.is-dark {
+      background-color: var(--nokia-dark);
+      color: var(--nokia-bg);
+      border-color: var(--nokia-bg);
+      box-shadow: 4px 4px 0 var(--nokia-shadow);
+    }
+
+    .nes-container.is-dark .nes-container-title {
+      color: var(--nokia-bg);
+      border-bottom-color: var(--nokia-bg);
+    }
+
+    .nes-btn {
+      background-color: var(--nokia-bg);
+      border-color: var(--nokia-border);
+      color: var(--nokia-dark);
+      box-shadow: 2px 2px 0 var(--nokia-shadow);
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.5rem;
+    }
+
+    .nes-btn:hover {
+      background-color: var(--nokia-highlight);
+      border-color: var(--nokia-dark);
+    }
+
+    .nes-btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: 0 0 0 var(--nokia-shadow);
+    }
+
+    .nes-btn.is-primary {
+      background-color: var(--nokia-dark);
+      color: var(--nokia-bg);
+      border-color: var(--nokia-bg);
+    }
+
+    .nes-btn.is-primary:hover {
+      background-color: var(--nokia-accent);
+    }
+
+    .nes-btn.is-success {
+      background-color: var(--nokia-accent);
+      color: var(--nokia-bg);
+      border-color: var(--nokia-dark);
+    }
+
+    .nes-btn.is-success:hover {
+      background-color: var(--nokia-dark);
+    }
+
+    .nes-btn.is-error {
+      background-color: #8b2e2e;
+      color: #f5e6e6;
+      border-color: #5a1a1a;
+    }
+
+    .nes-btn.is-warning {
+      background-color: #6b5b1a;
+      color: #f5f0d8;
+      border-color: #4a3d10;
+    }
+
+    .nes-field input,
+    .nes-field textarea,
+    .nes-field select {
+      background-color: var(--nokia-bg);
+      border-color: var(--nokia-border);
+      color: var(--nokia-dark);
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.5rem;
+    }
+
+    .nes-field input:focus,
+    .nes-field textarea:focus,
+    .nes-field select:focus {
+      border-color: var(--nokia-dark);
+      box-shadow: 0 0 0 2px var(--nokia-highlight);
+    }
+
+    /* Custom utility classes */
+    .nokia-text {
+      font-family: 'Press Start 2P', monospace;
+    }
+
+    .text-nokia-dark { color: var(--nokia-dark); }
+    .text-nokia-bg { color: var(--nokia-bg); }
+    .text-nokia-accent { color: var(--nokia-accent); }
+    .text-nokia-highlight { color: var(--nokia-highlight); }
+
+    .bg-nokia-dark { background-color: var(--nokia-dark); }
+    .bg-nokia-accent { background-color: var(--nokia-accent); }
+    .bg-nokia-highlight { background-color: var(--nokia-highlight); }
+
+    .border-nokia { border: 4px solid var(--nokia-border); }
+    .border-nokia-dark { border: 4px solid var(--nokia-dark); }
+    .border-nokia-bg { border: 4px solid var(--nokia-bg); }
+
+    .shadow-pixel { box-shadow: 4px 4px 0 var(--nokia-shadow); }
+    .shadow-pixel-sm { box-shadow: 2px 2px 0 var(--nokia-shadow); }
+
+    /* Layout */
+    .main-wrapper {
+      flex: 1;
+      width: 100%;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .section-block {
+      width: 100%;
+    }
+
+    /* Status Bar - Space Impact Style */
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      background-color: var(--nokia-dark);
+      color: var(--nokia-bg);
+      border: 4px solid var(--nokia-bg);
+      box-shadow: 4px 4px 0 var(--nokia-shadow);
+      font-size: 0.5rem;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .status-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status-label {
+      font-weight: bold;
+    }
+
+    .status-value {
+      font-family: 'Press Start 2P', monospace;
+    }
+
+    .lives-display {
+      display: flex;
+      gap: 4px;
+    }
+
+    .heart {
+      color: #c0392b;
+      font-size: 0.75rem;
+      animation: blink 1.5s infinite;
+    }
+
+    .heart:nth-child(2) { animation-delay: 0.3s; }
+    .heart:nth-child(3) { animation-delay: 0.6s; }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* Hero Section */
+    .hero-section {
+      text-align: center;
+      padding: 16px 12px;
+    }
+
+    .hero-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+      line-height: 1.3;
+      margin: 0 0 8px 0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-shadow: 2px 2px 0 var(--nokia-shadow);
+    }
+
+    .hero-subtitle {
+      font-size: 0.6rem;
+      margin: 0 0 16px 0;
+      color: var(--nokia-accent);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .hero-icons {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .hero-icon {
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      background: var(--nokia-dark);
+      color: var(--nokia-bg);
+      border: 3px solid var(--nokia-bg);
+      box-shadow: 3px 3px 0 var(--nokia-shadow);
+    }
+
+    .quick-stats {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      font-size: 0.5rem;
+      margin-top: 12px;
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .stat-label {
+      color: var(--nokia-accent);
+      text-transform: uppercase;
+    }
+
+    .stat-value {
+      font-weight: bold;
+      color: var(--nokia-dark);
+    }
+
+    /* Skills Grid - Brick Game Layout */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .skill-block {
+      padding: 12px;
+    }
+
+    .skill-block .nes-container-title {
+      font-size: 0.55rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 8px 12px;
+      margin: -12px -12px 12px -12px;
+    }
+
+    .skill-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .skill-list li {
+      background: var(--nokia-accent);
+      color: var(--nokia-bg);
+      padding: 4px 10px;
+      border: 2px solid var(--nokia-dark);
+      box-shadow: 2px 2px 0 var(--nokia-shadow);
+      font-size: 0.45rem;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .skill-block:not(.is-dark) .skill-list li {
+      background: var(--nokia-highlight);
+      color: var(--nokia-dark);
+      border-color: var(--nokia-border);
+    }
+
+    /* Experience Timeline - Quest Log Style */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .stage-card {
+      position: relative;
+      padding-left: 24px;
+    }
+
+    .stage-card::before {
+      content: '';
+      position: absolute;
+      left: 8px;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--nokia-border);
+    }
+
+    .stage-card:last-child::before {
+      display: none;
+    }
+
+    .stage-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+
+    .stage-number {
+      background: var(--nokia-dark);
+      color: var(--nokia-bg);
+      padding: 4px 10px;
+      border: 2px solid var(--nokia-bg);
+      box-shadow: 2px 2px 0 var(--nokia-shadow);
+      font-size: 0.5rem;
+      font-weight: bold;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .stage-title {
+      font-size: 0.55rem;
+      font-weight: bold;
+      color: var(--nokia-dark);
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .stage-company {
+      font-size: 0.45rem;
+      color: var(--nokia-accent);
+      margin-top: 2px;
+    }
+
+    .stage-duration {
+      font-size: 0.4rem;
+      color: var(--nokia-highlight);
+      background: var(--nokia-dark);
+      color: var(--nokia-bg);
+      padding: 2px 8px;
+      border: 2px solid var(--nokia-bg);
+      box-shadow: 1px 1px 0 var(--nokia-shadow);
+      white-space: nowrap;
+      align-self: flex-start;
+    }
+
+    .stage-logs {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .stage-logs li {
+      position: relative;
+      padding-left: 16px;
+      margin-bottom: 6px;
+      font-size: 0.42rem;
+      line-height: 1.5;
+      color: var(--nokia-dark);
+    }
+
+    .stage-logs li::before {
+      content: '▶';
+      position: absolute;
+      left: 0;
+      color: var(--nokia-accent);
+      font-size: 0.35rem;
+    }
+
+    .stage-card.is-dark .stage-title { color: var(--nokia-bg); }
+    .stage-card.is-dark .stage-logs li { color: var(--nokia-bg); }
+    .stage-card.is-dark .stage-logs li::before { color: var(--nokia-highlight); }
+
+    /* Projects Grid - Snake Style */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .project-card {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .project-card .nes-container {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .project-title {
+      font-size: 0.5rem;
+      font-weight: bold;
+      color: var(--nokia-dark);
+      margin: 0 0 8px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .project-card.is-dark .project-title { color: var(--nokia-bg); }
+
+    .project-desc {
+      font-size: 0.4rem;
+      line-height: 1.5;
+      flex: 1;
+      color: var(--nokia-accent);
+    }
+
+    .project-card.is-dark .project-desc { color: var(--nokia-highlight); }
+
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 12px;
+    }
+
+    .tech-tag {
+      font-size: 0.35rem;
+      background: var(--nokia-highlight);
+      color: var(--nokia-dark);
+      padding: 2px 6px;
+      border: 1px solid var(--nokia-border);
+      text-transform: uppercase;
+    }
+
+    .project-card.is-dark .tech-tag {
+      background: var(--nokia-accent);
+      color: var(--nokia-bg);
+      border-color: var(--nokia-bg);
+    }
+
+    /* Contact Footer - Controller Style */
+    .contact-footer {
+      margin-top: auto;
+      padding-top: 16px;
+    }
+
+    .controller {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .controller-title {
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--nokia-accent);
+      text-align: center;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .contact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      min-width: 160px;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: transform 0.05s;
+    }
+
+    .contact-btn:active {
+      transform: translate(2px, 2px);
+    }
+
+    .contact-btn i {
+      font-size: 0.75rem;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 16px;
+      margin-top: 8px;
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      background: var(--nokia-dark);
+      color: var(--nokia-bg);
+      border: 3px solid var(--nokia-bg);
+      box-shadow: 3px 3px 0 var(--nokia-shadow);
+      text-decoration: none;
+      font-size: 1rem;
+      transition: transform 0.05s;
+    }
+
+    .social-link:hover {
+      background: var(--nokia-accent);
+    }
+
+    .social-link:active {
+      transform: translate(2px, 2px);
+      box-shadow: 0 0 0 var(--nokia-shadow);
+    }
+
+    .copyright {
+      margin-top: 16px;
+      font-size: 0.35rem;
+      color: var(--nokia-accent);
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 640px) {
+      html { font-size: 14px; }
+      .main-wrapper { padding: 12px 8px; gap: 12px; }
+      .hero-title { font-size: 1rem; }
+      .hero-subtitle { font-size: 0.55rem; }
+      .status-bar { font-size: 0.45rem; padding: 6px 10px; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .stage-card { padding-left: 16px; }
+      .stage-card::before { left: 4px; }
+      .stage-number { font-size: 0.45rem; padding: 3px 8px; }
+      .stage-title { font-size: 0.5rem; min-width: 150px; }
+      .stage-duration { font-size: 0.35rem; padding: 2px 6px; }
+      .contact-btn { min-width: 140px; padding: 10px 16px; font-size: 0.45rem; }
+      .quick-stats { gap: 16px; }
+    }
+
+    @media (max-width: 400px) {
+      html { font-size: 12px; }
+      .hero-icons { gap: 10px; }
+      .hero-icon { width: 40px; height: 40px; font-size: 1.2rem; }
+      .button-row { flex-direction: column; width: 100%; }
+      .contact-btn { width: 100%; }
+    }
+
+    /* Print styles */
+    @media print {
+      .status-bar, .controller, .hero-icons { display: none; }
+      body { background: white; color: black; }
+      .nes-container, .nes-container.is-dark { 
+        background: white; color: black; border-color: black; box-shadow: none; 
+      }
+      .nes-btn { display: none; }
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .heart { animation: none; }
+      * { transition: none !important; }
+    }
+
+    /* Focus visible for accessibility */
+    .nes-btn:focus-visible,
+    .contact-btn:focus-visible,
+    .social-link:focus-visible {
+      outline: 2px solid var(--nokia-dark);
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="main-wrapper">
+    <!-- HERO / TITLE SCREEN (Space Impact Style) -->
+    <header class="section-block">
+      <!-- Status Bar -->
+      <div class="status-bar" role="status" aria-live="polite">
+        <div class="status-item">
+          <span class="status-label">SCORE:</span>
+          <span class="status-value">004000</span>
+        </div>
+        <div class="status-item">
+          <span class="status-label">LEVEL:</span>
+          <span class="status-value">DEVOPS</span>
+        </div>
+        <div class="status-item lives-display" aria-label="Three lives remaining">
+          <span class="heart" aria-hidden="true">♥</span>
+          <span class="heart" aria-hidden="true">♥</span>
+          <span class="heart" aria-hidden="true">♥</span>
+        </div>
+      </div>
+
+      <!-- Hero Content -->
+      <div class="hero-section">
+        <h1 class="hero-title">CHRISTIAN SAMBERE AGUILAR</h1>
+        <p class="hero-subtitle">LEVEL: DevOps & Systems Administrator</p>
+
+        <div class="hero-icons" aria-hidden="true">
+          <div class="hero-icon" title="Achievements"><i class="nes-icon trophy"></i></div>
+          <div class="hero-icon" title="Infrastructure"><i class="nes-icon gear"></i></div>
+          <div class="hero-icon" title="Automation"><i class="nes-icon star"></i></div>
+          <div class="hero-icon" title="Monitoring"><i class="nes-icon heart"></i></div>
+        </div>
+
+        <div class="quick-stats">
+          <div class="stat-item">
+            <span class="stat-label">Location</span>
+            <span class="stat-value">Mabalacat City, Pampanga</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Email</span>
+            <span class="stat-value">aguilarchan1215@gmail.com</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Phone</span>
+            <span class="stat-value">09603011461</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- PLAYER STATS / TECHNICAL SKILLS (Brick Game Layout) -->
+    <section class="section-block" aria-labelledby="skills-title">
+      <h2 id="skills-title" class="nes-container-title" style="margin-bottom: 12px; text-align: center;">PLAYER STATS / TECHNICAL SKILLS</h2>
+      <div class="skills-grid">
+        <!-- Cloud Infrastructure -->
+        <div class="skill-block">
+          <div class="nes-container with-title is-dark">
+            <p class="nes-container-title">CLOUD INFRASTRUCTURE</p>
+            <ul class="skill-list" role="list">
+              <li>AWS EC2</li>
+              <li>AWS RDS</li>
+              <li>AWS S3</li>
+              <li>AWS IAM</li>
+              <li>AWS VPC</li>
+              <li>AWS CloudWatch</li>
+              <li>AWS Lambda</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- DevOps & CI/CD -->
+        <div class="skill-block">
+          <div class="nes-container with-title">
+            <p class="nes-container-title">DEVOPS & CI/CD</p>
+            <ul class="skill-list" role="list">
+              <li>Docker</li>
+              <li>Jenkins</li>
+              <li>Git / SVN</li>
+              <li>OutSystems</li>
+              <li>Ansible</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Scripting & Automation -->
+        <div class="skill-block">
+          <div class="nes-container with-title is-dark">
+            <p class="nes-container-title">SCRIPTING & AUTOMATION</p>
+            <ul class="skill-list" role="list">
+              <li>Bash</li>
+              <li>PowerShell</li>
+              <li>Python</li>
+              <li>Cron Jobs</li>
+              <li>SQL Automation</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Monitoring & Security -->
+        <div class="skill-block">
+          <div class="nes-container with-title">
+            <p class="nes-container-title">MONITORING & SECURITY</p>
+            <ul class="skill-list" role="list">
+              <li>Grafana</li>
+              <li>Prometheus</li>
+              <li>Nagios</li>
+              <li>OWASP ZAP</li>
+              <li>AWS CloudWatch</li>
+              <li>Site24x7</li>
+              <li>VPN / MFA</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STAGE LOG / WORK EXPERIENCE (Quest Timeline Style) -->
+    <section class="section-block" aria-labelledby="experience-title">
+      <h2 id="experience-title" class="nes-container-title" style="margin-bottom: 12px; text-align: center;">STAGE LOG / WORK EXPERIENCE</h2>
+      <div class="timeline">
+        <!-- STAGE 02 -->
+        <article class="stage-card">
+          <div class="stage-header">
+            <span class="stage-number">STAGE 02</span>
+            <div>
+              <h3 class="stage-title">Application System Administrator</h3>
+              <p class="stage-company">ADEC Innovations Corporation</p>
+            </div>
+            <time class="stage-duration" datetime="2024-04/2025-11">Apr 2024 – Nov 2025</time>
+          </div>
+          <ul class="stage-logs" role="list">
+            <li>Orchestrated enterprise CI/CD pipelines and deployment workflows across AWS and OutSystems environments for seamless sprint releases and change requests.</li>
+            <li>Managed AWS cloud infrastructure components including EC2 instances, RDS databases, S3 buckets, IAM roles, and AWS Lambda functions.</li>
+            <li>Configured enterprise monitoring and incident reporting dashboards using Site24x7 and AWS CloudWatch to ensure high system availability.</li>
+            <li>Automated database operations, instance upgrades, test environment provisioning, and SQL executions using PowerShell and automated scripts.</li>
+            <li>Maintained and optimized Oracle Database environments, including user access management and database dumps.</li>
+          </ul>
+        </article>
+
+        <!-- STAGE 01 -->
+        <article class="stage-card is-dark">
+          <div class="stage-header">
+            <span class="stage-number">STAGE 01</span>
+            <div>
+              <h3 class="stage-title">Junior IT Linux System Administrator</h3>
+              <p class="stage-company">Z GetCare Systems Inc</p>
+            </div>
+            <time class="stage-duration" datetime="2021-08/2024-04">Aug 2021 – Apr 2024</time>
+          </div>
+          <ul class="stage-logs" role="list">
+            <li>Managed full lifecycle operations for Ubuntu Server environments, including OS installation, security hardening, patch management, and performance tuning.</li>
+            <li>Engineered automated Bash scripts and scheduled Cron jobs for routine maintenance and database backup/recovery.</li>
+            <li>Containerized application environments using Docker to support multi-component Java, Spring Boot, and Vue.js codebases.</li>
+            <li>Implemented real-time infrastructure monitoring and alerting systems using Nagios and AWS CloudWatch.</li>
+            <li>Strengthened system security posture by running OWASP ZAP vulnerability scans and enforcing VPN, MFA, and strict firewall policies.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- INVENTORY / KEY PROJECTS (Snake-Inspired Grid) -->
+    <section class="section-block" aria-labelledby="projects-title">
+      <h2 id="projects-title" class="nes-container-title" style="margin-bottom: 12px; text-align: center;">INVENTORY / KEY PROJECTS</h2>
+      <div class="projects-grid">
+        <!-- Project 1 -->
+        <article class="project-card">
+          <div class="nes-container with-title">
+            <p class="nes-container-title">PROJECT SLOT 01</p>
+            <h3 class="project-title">PostgreSQL Automated Maintenance</h3>
+            <p class="project-desc">Implemented automated scripts to identify and clean dead tuples in PostgreSQL, optimizing database performance and reducing bloat.</p>
+            <div class="project-tech">
+              <span class="tech-tag">PostgreSQL</span>
+              <span class="tech-tag">Bash</span>
+              <span class="tech-tag">Cron</span>
+              <span class="tech-tag">SQL</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 2 -->
+        <article class="project-card">
+          <div class="nes-container with-title is-dark">
+            <p class="nes-container-title">PROJECT SLOT 02</p>
+            <h3 class="project-title">System Utilization Alerting</h3>
+            <p class="project-desc">Built automated CPU and memory monitoring notification systems using Bash scripting and Cron schedules for proactive incident response.</p>
+            <div class="project-tech">
+              <span class="tech-tag">Bash</span>
+              <span class="tech-tag">Cron</span>
+              <span class="tech-tag">Linux</span>
+              <span class="tech-tag">Monitoring</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 3 -->
+        <article class="project-card">
+          <div class="nes-container with-title">
+            <p class="nes-container-title">PROJECT SLOT 03</p>
+            <h3 class="project-title">Infrastructure Monitoring Stack</h3>
+            <p class="project-desc">Deployed and configured Grafana and Prometheus monitoring stacks for real-time metrics visibility across hybrid cloud environments.</p>
+            <div class="project-tech">
+              <span class="tech-tag">Grafana</span>
+              <span class="tech-tag">Prometheus</span>
+              <span class="tech-tag">Docker</span>
+              <span class="tech-tag">AWS</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 4 -->
+        <article class="project-card">
+          <div class="nes-container with-title is-dark">
+            <p class="nes-container-title">PROJECT SLOT 04</p>
+            <h3 class="project-title">Automated Backup & Recovery</h3>
+            <p class="project-desc">Designed automated backup and recovery pipelines operating from replica data stores, ensuring RPO/RTO compliance for critical workloads.</p>
+            <div class="project-tech">
+              <span class="tech-tag">Bash</span>
+              <span class="tech-tag">AWS S3</span>
+              <span class="tech-tag">RDS</span>
+              <span class="tech-tag">Automation</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- CONTROLLER / CONTACT FOOTER -->
+    <footer class="contact-footer" role="contentinfo">
+      <div class="controller">
+        <p class="controller-title">CONTROLLER / CONTACT</p>
+
+        <div class="button-row">
+          <a href="https://github.com/aguilarchrstn" target="_blank" rel="noopener noreferrer" class="contact-btn nes-btn is-primary">
+            <i class="nes-icon github" aria-hidden="true"></i> GITHUB
+          </a>
+          <a href="https://linkedin.com/in/chrstn-aguilar" target="_blank" rel="noopener noreferrer" class="contact-btn nes-btn is-success">
+            <i class="nes-icon linkedin" aria-hidden="true"></i> LINKEDIN
+          </a>
+          <a href="mailto:aguilarchan1215@gmail.com" class="contact-btn nes-btn is-warning">
+            <i class="nes-icon mail" aria-hidden="true"></i> EMAIL
+          </a>
+        </div>
+
+        <div class="social-links" aria-label="Social media links">
+          <a href="https://github.com/aguilarchrstn" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub Profile" title="GitHub">
+            <i class="nes-icon github" aria-hidden="true"></i>
+          </a>
+          <a href="https://linkedin.com/in/chrstn-aguilar" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn Profile" title="LinkedIn">
+            <i class="nes-icon linkedin" aria-hidden="true"></i>
+          </a>
+          <a href="mailto:aguilarchan1215@gmail.com" class="social-link" aria-label="Send Email" title="Email">
+            <i class="nes-icon mail" aria-hidden="true"></i>
+          </a>
+        </div>
+
+        <p class="copyright">© 2025 CHRISTIAN SAMBERE AGUILAR • DEVOPS & SYSTEMS ADMINISTRATOR • BUILT WITH NES.CSS</p>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
